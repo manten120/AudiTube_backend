@@ -6,8 +6,11 @@ export class UserORMEntity {
   id?: number;
 
   @Column()
-  first_name!: string;
+  name!: string;
 
   @Column()
-  last_name!: string;
+  password!: string;
+
+  @Column({ type: 'number', default: 0 })
+  restricted_status!: number;
 }

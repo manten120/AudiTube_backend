@@ -9,7 +9,12 @@ export const connectToDB = () =>
     username: process.env.MYSQL_USER,
     password: process.env.MYSQL_PASSWORD,
     database: process.env.MYSQL_DATABASE,
-    entities: [path.join(__dirname, process.env.NODE_ENV === 'production' ? 'entity/*.js' : 'entity/*.ts')],
+    entities: [
+      path.join(
+        __dirname,
+        process.env.NODE_ENV === 'production' ? 'entity/*.js' : 'entity/*.ts'
+      ),
+    ],
     synchronize: true,
   });
 
