@@ -11,9 +11,9 @@ export class SavedVideoUserORMEntity {
   user_id!: string;
 
   @Column()
-  created_at!: Date;
+  created_at!: string;
 
-  @Column({ type: 'number', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   restricted_status!: number;
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)

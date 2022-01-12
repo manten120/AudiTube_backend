@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { ChannelORMEntity } from './ChannelORMEntity';
 
 @Entity('videos')
@@ -15,13 +15,13 @@ export class VideoORMEntity {
   @Column()
   length!: string;
 
-  @Column()
-  created_at!: Date;
+  @CreateDateColumn()
+  created_at?: string;
 
-  @Column()
-  updated_at!: Date;
+  @UpdateDateColumn()
+  updated_at?: string;
 
-  @Column({ type: 'number', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   restricted_status!: number;
 
   @ManyToOne(() => ChannelORMEntity, (channel) => channel.id)

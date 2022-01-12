@@ -13,7 +13,7 @@ export class FollowRMEntity {
   is_notified!: boolean;
 
   @Column()
-  created_at!: Date;
+  created_at!: string;
 
   @ManyToOne(() => UserORMEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })

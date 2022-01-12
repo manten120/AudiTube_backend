@@ -18,7 +18,7 @@ router.get('/', (req: GetReq, res, next) => {
     const userData = await userTable.findOne({ where: { id } });
 
     const response = userData
-      ? `id: ${id} のユーザーが見つかりました。 firstName: ${userData.first_name} lastName: ${userData.last_name}`
+      ? `id: ${id} のユーザーが見つかりました。 firstName: ${userData.name}`
       : `id: ${id} のユーザーは存在しません`;
 
     return res.send(response);
@@ -38,13 +38,12 @@ router.post('/', (req: PostReq, res, next) => {
     }
 
     const userData = new UserORMEntity();
-    userData.first_name = firstName;
-    userData.last_name = lastName;
+    userData.name = firstName;
 
     const userTable = getConnection().getRepository(UserORMEntity);
-    const savedUserData = await userTable.save(userData);
+   await userTable.save(userData);
 
-    const response = `ユーザーを登録しました。id: ${savedUserData.id} firstName: ${savedUserData.first_name} lastName: ${savedUserData.last_name}`;
+    const response = `ユーザーを登録しました`;
 
     return res.send(response);
   })().catch(next);

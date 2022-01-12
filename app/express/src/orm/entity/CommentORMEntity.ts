@@ -18,11 +18,11 @@ export class CommentORMEntity {
   has_spoilers!: boolean; // ネタバレを含むか
 
   @Column({ type: 'boolean', default: false })
-  created_at!: Date; // レビューを投稿した日
+  created_at!: string; // レビューを投稿した日
 
   @Column()
-  updated_at!: Date; // レビューを編集
+  updated_at!: string; // レビューを編集
 
-  @Column({ type: 'number', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   restricted_status!: number;
 }

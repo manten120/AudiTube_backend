@@ -11,6 +11,6 @@ export class UserORMEntity {
   @Column()
   password!: string;
 
-  @Column({ type: 'number', default: 0 })
+  @Column({ type: 'integer', default: 0 })
   restricted_status!: number;
 }

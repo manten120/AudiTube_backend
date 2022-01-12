@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn  } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn,  } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 
 @Entity('blocks')
@@ -10,7 +10,7 @@ export class BlockORMEntity {
   blocked_user_id!: number;
 
   @Column()
-  created_at!: Date;
+  created_at!: string;
 
   @ManyToOne(() => UserORMEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })

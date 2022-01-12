@@ -21,7 +21,7 @@ export class ReportORMEntity {
   reported_user_id!: string | null;
 
   @Column({ type: 'varchar', nullable: true, default: null })
-  reported_review_id!: string | null;
+  reported_watched_id!: string | null;
 
   @Column({ type: 'varchar', nullable: true, default: null })
   reported_comment_id!: string | null;
@@ -36,7 +36,7 @@ export class ReportORMEntity {
   is_resolved!: boolean;
 
   @Column()
-  created_at!: Date;
+  created_at!: string;
 
   @ManyToOne(() => ChannelORMEntity, (channel) => channel.id)
   @JoinColumn({ name: 'reported_channel_id' })
@@ -50,8 +50,8 @@ export class ReportORMEntity {
   @JoinColumn({ name: 'reported_user_id' })
   user!: UserORMEntity;
 
-  @ManyToOne(() => UserORMEntity, (user) => user.id)
-  @JoinColumn({ name: 'reported_video_id' })
+  @ManyToOne(() => WatchedVideoUserORMEntity, (watchedVideo) => watchedVideo.id)
+  @JoinColumn({ name: 'reported_watched_id' })
   watched_video!: WatchedVideoUserORMEntity;
 
   @ManyToOne(() => CommentORMEntity, (comment) => comment.id)
