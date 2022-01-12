@@ -18,4 +18,15 @@ export const connectToDB = () =>
     synchronize: true,
   });
 
+export { BlockORMEntity } from './entity/BlockORMEntity';
+export { ChannelORMEntity } from './entity/ChannelORMEntity';
+export { CommentORMEntity } from './entity/CommentORMEntity';
+export { FollowRMEntity } from './entity/FollowsORMEntity';
+export { ReadingQualityORMEntity } from './entity/ReadingQuality';
+export { ReasonORMEntity } from './entity/ReasonOrmEntity';
+export { SavedVideoUserORMEntity } from './entity/SavedVideoUserORMEntity';
+export { SoundQualityORMEntity } from './entity/SoundQualityORMEntity';
 export { UserORMEntity } from './entity/UserORMEntity';
+export { VideoORMEntity } from './entity/VideoORMEntity';
+export { WatchedVideoUserORMEntity } from './entity/WatchedVideoUserORMEntity';
+export { WatchingVideoUserORMEntity } from './entity/WatchingVideoUserORMEntity';
