@@ -26,13 +26,49 @@ userRouter.post('/', (req: CustomReq, res, next) => {
       userName
     );
 
-
     if (!result.ok) {
       res.send('ユーザー登録に失敗しました');
       throw result.error;
     }
 
     res.send('ユーザー登録しました');
+  })().catch(next);
+});
+
+userRouter.put('/password', (req: CustomReq, res, next) => {
+  (async () => {
+    const { oldPassword, newPassword, newPasswordForCheck, displayId } =
+      req.body;
+
+    if (!oldPassword) {
+      throw new Error('oldPasswordがundefinedです');
+    }
+
+    if (!newPassword) {
+      throw new Error('newPasswordがundefinedです');
+    }
+
+    if (!newPasswordForCheck) {
+      throw new Error('newPasswordForCheckがundefinedです');
+    }
+
+    if (!displayId) {
+      throw new Error('displayIdがundefinedです');
+    }
+
+    const result = await userApplicationService.changePassword({
+      oldPlainPassword: oldPassword,
+      newPlainPassword: newPassword,
+      newPlainPasswordForCheck: newPasswordForCheck,
+      displayIdValue: displayId,
+    });
+
+    if (!result.ok) {
+      res.send('パスワードを変更できませんでした');
+      throw result.error;
+    }
+
+    res.send('パスワードを変更しました');
   })().catch(next);
 });
 

@@ -14,7 +14,29 @@ export class AuthUserFactory implements IAuthUserFactory {
     userNameValue: string;
   }) => {
     const id = new UserId(createUUID());
-    const password = Password.createFromPlain(argsObj.plainPassword)
+    const password = Password.createFromPlain(argsObj.plainPassword);
+    const displayId = new DisplayId(argsObj.displayIdValue);
+    const name = new UserName(argsObj.userNameValue);
+
+    const authUser = new AuthUser({
+      id,
+      password,
+      displayId,
+      name,
+    });
+
+    return authUser;
+  };
+
+  // eslint-disable-next-line class-methods-use-this
+  readonly create = (argsObj: {
+    userIdValue: string;
+    hashedPassword: string;
+    displayIdValue: string;
+    userNameValue: string;
+  }) => {
+    const id = new UserId(argsObj.userIdValue);
+    const password = Password.createFromHash(argsObj.hashedPassword);
     const displayId = new DisplayId(argsObj.displayIdValue);
     const name = new UserName(argsObj.userNameValue);
 

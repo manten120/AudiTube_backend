@@ -4,6 +4,9 @@ export type Body = {
   password?: string;
   displayId?: string;
   userName?: string;
+  oldPassword?: string;
+  newPassword?: string;
+  newPasswordForCheck?: string;
 };
 
 export type Query = {};

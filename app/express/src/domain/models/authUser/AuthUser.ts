@@ -39,7 +39,7 @@ export class AuthUser {
       throw new Error('新しいパスワードと確認用の新しいパスワードが異なります');
     }
 
-    if (!newPassword.equals(this.password)) {
+    if (newPassword.equals(this.password)) {
       throw new Error('変更前後のパスワードが同じです');
     }
 

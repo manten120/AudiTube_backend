@@ -6,4 +6,11 @@ export interface IAuthUserFactory {
     displayIdValue: string;
     userNameValue: string;
   }) => AuthUser;
+
+  create: (argsObj: {
+    userIdValue: string;
+    hashedPassword: string;
+    displayIdValue: string;
+    userNameValue: string;
+  }) => AuthUser;
 }
