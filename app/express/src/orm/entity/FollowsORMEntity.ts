@@ -1,16 +1,25 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn  } from 'typeorm';
+import { UserORMEntity } from './UserORMEntity';
 
 @Entity('follows')
 export class FollowRMEntity {
   @PrimaryColumn()
-  follower_user_id!: number;
+  user_id!: number;
 
   @PrimaryColumn()
-  followee_user_id!: number;
+  followed_user_id!: number;
 
   @Column()
   is_notified!: boolean;
 
   @Column()
   created_at!: Date;
+
+  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  user!: UserORMEntity;
+
+  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @JoinColumn({ name: 'followed_user_id' })
+  followed_user!: UserORMEntity;
 }

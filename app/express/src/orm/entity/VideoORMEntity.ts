@@ -1,9 +1,13 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { ChannelORMEntity } from './ChannelORMEntity';
 
 @Entity('videos')
 export class VideoORMEntity {
   @PrimaryColumn()
   id?: string;
+
+  @Column()
+  channel_id!: string;
 
   @Column()
   name!: string;
@@ -19,4 +23,8 @@ export class VideoORMEntity {
 
   @Column({ type: 'number', default: 0 })
   restricted_status!: number;
+
+  @ManyToOne(() => ChannelORMEntity, (channel) => channel.id)
+  @JoinColumn({ name: 'channel_id' })
+  channel!: ChannelORMEntity;
 }

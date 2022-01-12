@@ -1,7 +1,9 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { UserORMEntity } from './UserORMEntity';
+import { VideoORMEntity } from './VideoORMEntity';
 
 @Entity('watching_videos_users')
-export class CommentORMEntity {
+export class WatchingVideoUserORMEntity {
   @PrimaryColumn()
   video_id!: string;
 
@@ -13,4 +15,12 @@ export class CommentORMEntity {
 
   @Column({ type: 'number', default: 0 })
   restricted_status!: number;
+
+  @ManyToOne(() => VideoORMEntity, (video) => video.id)
+  @JoinColumn({ name: 'video_id' })
+  video!: VideoORMEntity;
+
+  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  user!: UserORMEntity;
 }

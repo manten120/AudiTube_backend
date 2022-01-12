@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
+import { UserORMEntity } from './UserORMEntity';
+import { VideoORMEntity } from './VideoORMEntity';
 
 @Entity('watched_videos_users')
-export class FinishedORMEntity {
+export class WatchedVideoUserORMEntity {
   @PrimaryGeneratedColumn()
   id?: string;
 
@@ -31,4 +39,12 @@ export class FinishedORMEntity {
 
   @Column({ type: 'number', default: 0 })
   restricted_status!: number;
+
+  @ManyToOne(() => VideoORMEntity, (video) => video.id)
+  @JoinColumn({ name: 'video_id' })
+  video!: VideoORMEntity;
+
+  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @JoinColumn({ name: 'user_id' })
+  user!: UserORMEntity;
 }

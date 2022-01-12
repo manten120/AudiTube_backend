@@ -6,7 +6,7 @@ export class CommentORMEntity {
   id?: string;
 
   @Column()
-  review_id!: string;
+  watched_id!: string;
 
   @Column()
   user_id!: string;
