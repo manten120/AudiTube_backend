@@ -1,14 +1,12 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Entity, Column, PrimaryColumn, CreateDateColumn } from 'typeorm';
 
 @Entity('users') // テーブル名 users
 export class UserORMEntity {
-  @PrimaryGeneratedColumn()
-  id?: number;
+  @PrimaryColumn()
+  id!: string;
+
+  @Column({ unique: true })
+  display_id!: string;
 
   @Column()
   name!: string;

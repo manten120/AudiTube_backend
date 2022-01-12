@@ -1,52 +1,63 @@
 import express from 'express';
-import { getConnection } from 'typeorm';
+import { userApplicationService } from '../application';
+import type { CustomReq } from '../types';
 
-import { UserORMEntity } from '../orm';
-import type { GetReq, PostReq } from '../types';
+const userRouter = express.Router();
 
-const router = express.Router();
-
-router.get('/', (req: GetReq, res, next) => {
+userRouter.post('/', (req: CustomReq, res, next) => {
   (async () => {
-    const { id } = req.query;
+    const { password, displayId, userName } = req.body;
 
-    if (!id) {
-      return res.send('idを指定してください');
+    if (!password) {
+      throw new Error('passwordがundefinedです');
     }
 
-    const userTable = getConnection().getRepository(UserORMEntity);
-    const userData = await userTable.findOne({ where: { id } });
+    if (!displayId) {
+      throw new Error('displayIdがundefinedです');
+    }
 
-    const response = userData
-      ? `id: ${id} のユーザーが見つかりました。 firstName: ${userData.name}`
-      : `id: ${id} のユーザーは存在しません`;
+    if (!userName) {
+      throw new Error('userNameがundefinedです');
+    }
 
-    return res.send(response);
+    const result = await userApplicationService.register(
+      password,
+      displayId,
+      userName
+    );
+
+
+    if (!result.ok) {
+      res.send('ユーザー登録に失敗しました');
+      throw result.error;
+    }
+
+    res.send('ユーザー登録しました');
   })().catch(next);
 });
 
-router.post('/', (req: PostReq, res, next) => {
-  (async () => {
-    const { firstName, lastName } = req.body;
+// router.post('/', (req: PostReq, res, next) => {
+//   (async () => {
+//     const { firstName, lastName } = req.body;
 
-    if (!firstName) {
-      return res.send('firstNameを入力してください');
-    }
+//     if (!firstName) {
+//       return res.send('firstNameを入力してください');
+//     }
 
-    if (!lastName) {
-      return res.send('lastNameを入力してください');
-    }
+//     if (!lastName) {
+//       return res.send('lastNameを入力してください');
+//     }
 
-    const userData = new UserORMEntity();
-    userData.name = firstName;
+//     const userData = new UserORMEntity();
+//     userData.name = firstName;
 
-    const userTable = getConnection().getRepository(UserORMEntity);
-    await userTable.save(userData);
+//     const userTable = getConnection().getRepository(UserORMEntity);
+//     await userTable.save(userData);
 
-    const response = `ユーザーを登録しました`;
+//     const response = `ユーザーを登録しました`;
 
-    return res.send(response);
-  })().catch(next);
-});
+//     return res.send(response);
+//   })().catch(next);
+// });
 
-export { router as userRouter };
+export { userRouter };

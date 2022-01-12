@@ -1,18 +1,14 @@
 import { Request } from 'express';
 
 export type Body = {
-  firstName?: string;
-  lastName?: string;
+  password?: string;
+  displayId?: string;
+  userName?: string;
 };
 
-export interface PostReq extends Request {
-  body: Body;
-}
+export type Query = {};
 
-export type Query = {
-  id?: string;
-};
-
-export interface GetReq extends Request {
+export interface CustomReq extends Request {
   query: Query;
+  body: Body;
 }

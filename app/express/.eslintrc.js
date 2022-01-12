@@ -28,7 +28,6 @@ module.exports = {
 
   rules: {
     'import/no-commonjs': 'error', // require, module.exportを禁止してimport, export に統一する。https://github.com/import-js/eslint-plugin-import/blob/HEAD/docs/rules/no-commonjs.md
-    '@typescript-eslint/no-unused-vars': 'off',
     'import/prefer-default-export': 'off', // 名前付きエクスポートを許可する
     'import/no-default-export': 'error', // defaultエクスポートを禁止する
     'import/extensions': [
@@ -53,15 +52,19 @@ module.exports = {
       },
     ],
 
-    'no-unused-vars': [
+    // ESLintの標準だとTypeScriptで型定義にもno-unused-varsのエラーが出てしまうのを直す
+    // https://tech.motoki-watanabe.net/entry/2020/09/23/011526
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
       // 未使用の変数・定数の定義を禁止する https://eslint.org/docs/rules/no-unused-vars
       'error',
       {
         vars: 'all',
-        args: 'all', 
-        argsIgnorePattern: "^_" // ただしアンダースコアで始まる名前のパラメータは許可する https://eslint.org/docs/rules/no-unused-vars#argsignorepattern
+        args: 'all',
+        argsIgnorePattern: '^_', // ただしアンダースコアで始まる名前のパラメータは許可する https://eslint.org/docs/rules/no-unused-vars#argsignorepattern
       },
     ],
+
 
     '@typescript-eslint/explicit-module-boundary-types': 'off', // "exportされた関数やpublicなクラスメソッドの戻り値の型アノテーションを省略可にする https://github.com/typescript-eslint/typescript-eslint/blob/main/packages/eslint-plugin/docs/rules/explicit-module-boundary-types.md
   },
