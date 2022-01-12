@@ -41,7 +41,7 @@ router.post('/', (req: PostReq, res, next) => {
     userData.name = firstName;
 
     const userTable = getConnection().getRepository(UserORMEntity);
-   await userTable.save(userData);
+    await userTable.save(userData);
 
     const response = `ユーザーを登録しました`;
 

@@ -1,4 +1,10 @@
-import { Entity, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryColumn,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
 
@@ -9,6 +15,9 @@ export class ReadingQualityORMEntity {
 
   @PrimaryColumn()
   user_id!: string;
+
+  @CreateDateColumn()
+  created_at!: string;
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)
   @JoinColumn({ name: 'video_id' })

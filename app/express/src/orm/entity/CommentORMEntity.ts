@@ -1,4 +1,10 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity('comments')
 export class CommentORMEntity {
@@ -14,13 +20,13 @@ export class CommentORMEntity {
   @Column()
   text!: string;
 
-  @Column()
+  @Column({ type: 'boolean', default: false })
   has_spoilers!: boolean; // ネタバレを含むか
 
-  @Column({ type: 'boolean', default: false })
+  @CreateDateColumn()
   created_at!: string; // レビューを投稿した日
 
-  @Column()
+  @UpdateDateColumn()
   updated_at!: string; // レビューを編集
 
   @Column({ type: 'integer', default: 0 })

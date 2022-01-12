@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn} from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
 
@@ -10,7 +10,7 @@ export class WatchingVideoUserORMEntity {
   @PrimaryColumn()
   user_id!: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at!: string;
 
   @Column({ type: 'integer', default: 0 })

@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('channels')
 export class ChannelORMEntity {
@@ -8,10 +8,10 @@ export class ChannelORMEntity {
   @Column()
   name!: string;
 
-  @Column()
+  @CreateDateColumn()
   created_at!: string;
 
-  @Column()
+  @UpdateDateColumn()
   updated_at!: string;
 
   @Column({type: 'integer', default: 0})

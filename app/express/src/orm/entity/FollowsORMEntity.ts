@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn  } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 
 @Entity('follows')
@@ -12,7 +12,7 @@ export class FollowRMEntity {
   @Column()
   is_notified!: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at!: string;
 
   @ManyToOne(() => UserORMEntity, (user) => user.id)

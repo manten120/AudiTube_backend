@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
 import { ChannelORMEntity } from './ChannelORMEntity';
@@ -35,8 +35,11 @@ export class ReportORMEntity {
   @Column({ type: 'boolean', default: false })
   is_resolved!: boolean;
 
-  @Column()
+  @CreateDateColumn()
   created_at!: string;
+
+  @UpdateDateColumn()
+  updated_at!: string;
 
   @ManyToOne(() => ChannelORMEntity, (channel) => channel.id)
   @JoinColumn({ name: 'reported_channel_id' })

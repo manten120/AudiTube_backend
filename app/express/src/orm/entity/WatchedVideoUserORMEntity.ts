@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  CreateDateColumn
 } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
@@ -34,7 +35,7 @@ export class WatchedVideoUserORMEntity {
   @Column({ type: 'timestamp', nullable: true })
   finished_at!: string; // 聴き終わった日 不明ならnull
 
-  @Column()
+  @CreateDateColumn()
   created_at!: Date;
 
   @Column({ type: 'integer', default: 0 })
