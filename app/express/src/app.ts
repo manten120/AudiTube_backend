@@ -1,4 +1,9 @@
-import express, { Request, Response, NextFunction, RequestHandler} from 'express';
+import express, {
+  Request,
+  Response,
+  NextFunction,
+  RequestHandler,
+} from 'express';
 import createError from 'http-errors';
 import path from 'path';
 import cookieParser from 'cookie-parser';
@@ -6,7 +11,7 @@ import logger from 'morgan';
 import 'reflect-metadata';
 
 import { indexRouter } from './routes';
-import { userRouter } from './routes/user';
+import { accountRouter } from './routes/account';
 import { editRouter } from './routes/edit';
 
 import { notifyAdminOfError } from './adapter/notify';
@@ -24,15 +29,22 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ejsファイル内でbootstrapを "bootstrap/css/bootstrap.min.css" などのパスで読み込めるようにする
-app.use('/bootstrap', express.static(path.join(__dirname, '../node_modules/bootstrap/dist')) as RequestHandler);
+app.use(
+  '/bootstrap',
+  express.static(
+    path.join(__dirname, '../node_modules/bootstrap/dist')
+  ) as RequestHandler
+);
 
-app.use('/user', userRouter);
+app.use('/account', accountRouter);
 app.use('/edit', editRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
 app.use((req, _res, next) => {
-  next(createError(404, `存在しないパスへのリクエストです。\npath: ${req.path}`));
+  next(
+    createError(404, `存在しないパスへのリクエストです。\npath: ${req.path}`)
+  );
 });
 
 // error handler

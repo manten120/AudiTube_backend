@@ -3,9 +3,10 @@ import { userApplicationService } from '../application';
 import { UserUpdateCommand } from '../application/user/UserUpdateCommand';
 import type { CustomReq } from '../types';
 
-const userRouter = express.Router();
+const accountRouter = express.Router();
 
-userRouter.post('/', (req: CustomReq, res, next) => {
+// アカウント新規登録
+accountRouter.post('/', (req: CustomReq, res, next) => {
   (async () => {
     const { password, displayId, userName } = req.body;
 
@@ -36,7 +37,8 @@ userRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
-userRouter.put('/', (req: CustomReq, res, next) => {
+// 登録情報更新
+accountRouter.put('/', (req: CustomReq, res, next) => {
   (async () => {
     const { userId, displayId, userName } = req.body;
 
@@ -61,7 +63,8 @@ userRouter.put('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
-userRouter.put('/password', (req: CustomReq, res, next) => {
+// パスワード変更
+accountRouter.put('/password', (req: CustomReq, res, next) => {
   (async () => {
     const { oldPassword, newPassword, newPasswordForCheck, displayId } =
       req.body;
@@ -98,7 +101,8 @@ userRouter.put('/password', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
-userRouter.post('/login', (req: CustomReq, res, next) => {
+// ログイン
+accountRouter.post('/login', (req: CustomReq, res, next) => {
   (async () => {
     const { password, displayId } = req.body;
 
@@ -125,28 +129,4 @@ userRouter.post('/login', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
-// router.post('/', (req: PostReq, res, next) => {
-//   (async () => {
-//     const { firstName, lastName } = req.body;
-
-//     if (!firstName) {
-//       return res.send('firstNameを入力してください');
-//     }
-
-//     if (!lastName) {
-//       return res.send('lastNameを入力してください');
-//     }
-
-//     const userData = new UserORMEntity();
-//     userData.name = firstName;
-
-//     const userTable = getConnection().getRepository(UserORMEntity);
-//     await userTable.save(userData);
-
-//     const response = `ユーザーを登録しました`;
-
-//     return res.send(response);
-//   })().catch(next);
-// });
-
-export { userRouter };
+export { accountRouter };
