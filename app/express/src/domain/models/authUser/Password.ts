@@ -23,7 +23,7 @@ export class Password {
         'パスワードに使える文字は半角英数と.!_/`()[]+-=$#&@~です'
       );
     }
-    if (plainPassword.length >= 8 && plainPassword.length <= 64) {
+    if (plainPassword.length < 8 && plainPassword.length > 64) {
       throw new Error('パスワードは8文字以上64文字以下です');
     }
     const hashedPassword = this.hash(plainPassword);
