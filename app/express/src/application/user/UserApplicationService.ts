@@ -5,6 +5,9 @@ import { IAuthUserRepository } from '../../domain/models/authUser/IAuthUserRepos
 import { IAuthUserFactory } from '../../domain/models/authUser/IAuthUserFactory';
 import { Password } from '../../domain/models/authUser/Password';
 import { DisplayId } from '../../domain/models/user/DisplayId';
+import { UserUpdateCommand } from './UserUpdateCommand';
+import { UserId } from '../../domain/models/user/UserId';
+import { UserName } from '../../domain/models/user/UserName';
 
 export class UserApplicationService {
   private readonly userService: UserService;
@@ -59,7 +62,41 @@ export class UserApplicationService {
     }
   };
 
-  // readonly login = async (plainPassword: string, displayIdValue: string) => {};
+  readonly update = async (userUpdateCommand: UserUpdateCommand) => {
+    try {
+      const userId = new UserId(userUpdateCommand.userId);
+      const authUser = await this.authUserRepository.findOneById(userId);
+
+      if (!authUser) {
+        throw new Error('userIdに対応するAuthUserが存在しません');
+      }
+
+      if (userUpdateCommand.displayId !== null) {
+        const displayId = new DisplayId(userUpdateCommand.displayId);
+        authUser.changeDisplayId(displayId);
+        const sameDisplayIdUserAlreadyExists = await this.userService.exists(
+          authUser
+        );
+        if (sameDisplayIdUserAlreadyExists) {
+          return {
+            ok: false,
+            error: new Error('同じdisplayIdのUserがすでに存在しています'),
+          };
+        }
+      }
+
+      if (userUpdateCommand.userName !== null) {
+        const userName = new UserName(userUpdateCommand.userName);
+        authUser.changeName(userName);
+      }
+
+      await this.authUserRepository.update(authUser);
+
+      return { ok: true, error: null };
+    } catch (e) {
+      return { ok: false, error: e };
+    }
+  };
 
   readonly changePassword = async (argsObj: {
     oldPlainPassword: string;

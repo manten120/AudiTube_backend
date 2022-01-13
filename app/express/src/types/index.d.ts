@@ -7,6 +7,7 @@ export type Body = {
   oldPassword?: string;
   newPassword?: string;
   newPasswordForCheck?: string;
+  userId?: string;
 };
 
 export type Query = {};

@@ -1,5 +1,6 @@
 import express from 'express';
 import { userApplicationService } from '../application';
+import { UserUpdateCommand } from '../application/user/UserUpdateCommand';
 import type { CustomReq } from '../types';
 
 const userRouter = express.Router();
@@ -32,6 +33,31 @@ userRouter.post('/', (req: CustomReq, res, next) => {
     }
 
     res.send('ユーザー登録しました');
+  })().catch(next);
+});
+
+userRouter.put('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId, displayId, userName } = req.body;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+    const userUpdateCommand = new UserUpdateCommand(
+      userId,
+      displayId !== undefined ? displayId : null,
+      userName !== undefined ? userName : null
+    );
+
+    const result = await userApplicationService.update(userUpdateCommand);
+
+    if (!result.ok) {
+      res.send('ユーザー情報を更新できませんでした');
+      throw result.error;
+    }
+
+    res.send('ユーザー情報を更新しました');
   })().catch(next);
 });
 

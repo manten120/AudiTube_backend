@@ -2,6 +2,7 @@ import { getConnection } from 'typeorm';
 import { UserORMEntity } from '../../orm';
 import { IAuthUserRepository } from '../../domain/models/authUser/IAuthUserRepository';
 import { AuthUser } from '../../domain/models/authUser/AuthUser';
+import { UserId } from '../../domain/models/user/UserId';
 import { DisplayId } from '../../domain/models/user/DisplayId';
 import { IAuthUserFactory } from '../../domain/models/authUser/IAuthUserFactory';
 
@@ -36,6 +37,29 @@ export class AuthUserRepository implements IAuthUserRepository {
     userData.password = authUser.password.value;
 
     await usersTable.update(userData.id, userData);
+  };
+
+  readonly findOneById = async (userId: UserId) => {
+    const usersTable = getConnection().getRepository(UserORMEntity);
+
+    const userData = await usersTable.findOne({
+      where: {
+        id: userId.value,
+      },
+    });
+
+    if (!userData) {
+      return null;
+    }
+
+    const authUser = this.authUserFactory.create({
+      userIdValue: userData.id,
+      hashedPassword: userData.password,
+      displayIdValue: userData.display_id,
+      userNameValue: userData.name,
+    });
+
+    return authUser;
   };
 
   readonly findOneByDisplayId = async (displayId: DisplayId) => {
