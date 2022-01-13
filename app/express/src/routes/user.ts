@@ -98,6 +98,33 @@ userRouter.put('/password', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+userRouter.post('/login', (req: CustomReq, res, next) => {
+  (async () => {
+    const { password, displayId } = req.body;
+
+    if (!password) {
+      throw new Error('passwordがundefinedです');
+    }
+
+    if (!displayId) {
+      throw new Error('displayIdがundefinedです');
+    }
+
+    const result = await userApplicationService.login(displayId, password);
+
+    if (!result.ok) {
+      return res.json({ result: false });
+    }
+
+    if (result.error) {
+      res.json({ result: false });
+      throw result.error;
+    }
+
+    return res.json({ result: true });
+  })().catch(next);
+});
+
 // router.post('/', (req: PostReq, res, next) => {
 //   (async () => {
 //     const { firstName, lastName } = req.body;

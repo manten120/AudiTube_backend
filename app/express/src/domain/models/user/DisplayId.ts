@@ -12,4 +12,11 @@ export class DisplayId {
 
     this.value = value;
   }
+
+  readonly equals = (displayId: DisplayId) => {
+    if(displayId.value === this.value) {
+      return true;
+    }
+    return false;
+  }
 }

@@ -24,6 +24,11 @@ export class AuthUser {
     this.name = argsObj.name;
   }
 
+  readonly matchesCredentials = (displayId: DisplayId, password: Password) => {
+     const isMatched = this.password.equals(password) && this.displayId.equals(displayId)
+     return isMatched;
+  }
+
   readonly changePassword = (argsObj: {
     oldPassword: Password;
     newPassword: Password;

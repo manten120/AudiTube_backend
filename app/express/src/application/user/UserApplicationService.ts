@@ -62,6 +62,30 @@ export class UserApplicationService {
     }
   };
 
+  readonly login = async (displayIdValue: string, plainPassword: string) => {
+    try {
+      const displayId = new DisplayId(displayIdValue);
+      const password = Password.createFromPlain(plainPassword);
+
+      const authUser = await this.authUserRepository.findOneByDisplayId(displayId);
+
+      if (!authUser) {
+        return { ok: false, error: null }
+      }
+
+      const result = authUser.matchesCredentials(displayId, password);
+
+      if (!result) {
+        return { ok: false, error: null }
+      }
+
+
+      return { ok: true, error: null }
+    } catch(e) {
+      return { ok: false, error: e }
+    }
+  }
+
   readonly update = async (userUpdateCommand: UserUpdateCommand) => {
     try {
       const userId = new UserId(userUpdateCommand.userId);
