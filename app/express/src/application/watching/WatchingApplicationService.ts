@@ -78,11 +78,15 @@ export class WatchingApplicationService {
   };
 
   readonly getWatchingList = async (userIdValue: string) => {
-    const userId = new UserId(userIdValue);
-    const watchings = await this.watchingRepository.findAllByUserId(userId);
-    const watchingList = watchings.map(
-      (watching) => new WatchingListDTO(watching)
-    );
-    return watchingList;
+    try {
+      const userId = new UserId(userIdValue);
+      const watchings = await this.watchingRepository.findAllByUserId(userId);
+      const watchingList = watchings.map(
+        (watching) => new WatchingListDTO(watching)
+      );
+      return { ok: true, body: watchingList, error: null };
+    } catch (e) {
+      return { ok: false, body: [] as WatchingListDTO[], error: e };
+    }
   };
 }

@@ -4,6 +4,27 @@ import type { CustomReq } from '../types';
 
 const watchingListRouter = express.Router();
 
+// 聴いている動画リストを取得
+watchingListRouter.get('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId } = req.query;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+
+    const result = await watchingApplicationService.getWatchingList(userId);
+
+    if (!result.ok) {
+      res.json(result.body);
+      throw result.error;
+    }
+
+    return res.json(result.body);
+  })().catch(next);
+});
+
 // 聴いている動画を追加
 watchingListRouter.post('/', (req: CustomReq, res, next) => {
   (async () => {
