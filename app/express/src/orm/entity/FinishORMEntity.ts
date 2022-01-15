@@ -22,12 +22,6 @@ export class FinishORMEntity {
   @Column({ type: 'varchar', nullable: true })
   review!: string; // レビュー・感想
 
-  @Column({ type: 'boolean', default: false })
-  is_restricted!: boolean; // レビューが公開制限されている 投稿者だけ読める
-
-  @Column({ type: 'boolean', default: false })
-  is_deleted!: boolean; // レビューが削除されている
-
   @Column({ type: 'varchar', nullable: true })
   started_at!: string; // 聴き始めた日 不明ならnull
 
@@ -37,8 +31,11 @@ export class FinishORMEntity {
   @Column()
   registered_at!: string; // 聴き終わったリストに登録した日時
 
-  @Column({ type: 'integer', default: 0 })
-  restricted_status!: number;
+  @Column({ type: 'boolean', default: false })
+  is_restricted!: boolean; // videoまたはchannelがrestricted 本人だけ閲覧可
+
+  @Column({ type: 'boolean', default: false })
+  review_is_restricted!: boolean; // レビューが公開制限されている 本人だけ閲覧可
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)
   @JoinColumn({ name: 'video_id' })

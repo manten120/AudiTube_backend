@@ -27,6 +27,6 @@ export class CommentORMEntity {
   @Column()
   edited_at!: string; // レビューを編集
 
-  @Column({ type: 'integer', default: 0 })
-  restricted_status!: number;
+  @Column({ type: 'boolean', default: false })
+  is_restricted!: boolean;
 }

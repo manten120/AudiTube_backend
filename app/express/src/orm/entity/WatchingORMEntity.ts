@@ -18,8 +18,8 @@ export class WatchingORMEntity {
   @Column()
   registered_at!: string;
 
-  @Column({ type: 'integer', default: 0 })
-  restricted_status!: number;
+  @Column({ type: 'boolean', default: false })
+  is_restricted!: boolean;
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)
   @JoinColumn({ name: 'video_id' })

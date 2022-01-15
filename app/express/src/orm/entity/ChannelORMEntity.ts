@@ -11,8 +11,8 @@ export class ChannelORMEntity {
   @Column()
   updated_at!: string;
 
-  @Column({type: 'integer', default: 0})
-  restricted_status!: number; // 1: 当サイトではこのチャンネルとその動画は表示しない
+  @Column({type: 'boolean', default: false})
+  is_restricted!: boolean; // true: 当サイトではこのチャンネルとその動画は表示しない
 
   @Column({type: 'boolean', default: false})
   is_deleted!: boolean; // true: YouTubeでチャンネルが削除またはBANされている

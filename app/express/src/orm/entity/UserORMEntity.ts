@@ -14,8 +14,8 @@ export class UserORMEntity {
   @Column()
   password!: string;
 
-  @Column({ type: 'integer', default: 0 })
-  restricted_status!: number;
+  @Column({ type: 'boolean', default: false })
+  is_restricted!: boolean;
 
   @Column()
   registered_at!: string;

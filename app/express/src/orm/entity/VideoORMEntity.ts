@@ -18,8 +18,8 @@ export class VideoORMEntity {
   @Column()
   updated_at!: string;
 
-  @Column({ type: 'integer', default: 0 })
-  restricted_status!: number; // 1: 当サイトではこの動画を表示しない
+  @Column({ type: 'boolean', default: false })
+  is_restricted!: number; // true: 当サイトではこの動画を表示しない
 
   @Column({type: 'boolean', default: false})
   is_deleted!: boolean; // true: YouTubeで動画が削除または非公開になっている
