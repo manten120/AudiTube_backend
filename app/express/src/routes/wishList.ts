@@ -36,4 +36,26 @@ wishListRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+wishListRouter.post('/delete', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId, videoId } = req.body;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+    if (!videoId) {
+      throw new Error('videoIdがundefinedです');
+    }
+
+    const result = await wishApplicationService.delete(userId, videoId);
+
+    if (!result.ok) {
+      res.send('聴きたい動画から削除できませんでした');
+      throw result.error;
+    }
+
+    return res.send('聴きたい動画から削除しました');
+  })().catch(next);
+});
 export { wishListRouter };

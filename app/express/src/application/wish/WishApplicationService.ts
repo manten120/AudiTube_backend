@@ -7,6 +7,7 @@ import { IWishRepository } from '../../domain/models/wish/IWishRepository';
 import { ListService } from '../../domain/Services/ListService';
 import { UserId } from '../../domain/models/user/UserId';
 import { WishListDTO } from './WishListDTO';
+import { VideoId } from '../../domain/models/video/VideoId';
 
 export class WishApplicationService {
   // private readonly channelRepository: IChannelRepository;
@@ -55,6 +56,21 @@ export class WishApplicationService {
         channelIdValue,
       });
 
+      return { ok: true, error: null };
+    } catch (e) {
+      return { ok: false, error: e };
+    }
+  };
+
+  readonly delete = async (userIdValue: string, videoIdValue: string) => {
+    try {
+      const userId = new UserId(userIdValue);
+      const videoId = new VideoId(videoIdValue);
+      const wish = await this.wishRepository.findOne(userId, videoId);
+      if (!wish) {
+        throw new Error('wishは存在しないか削除済みです');
+      }
+      await this.wishRepository.delete(wish);
       return { ok: true, error: null };
     } catch (e) {
       return { ok: false, error: e };
