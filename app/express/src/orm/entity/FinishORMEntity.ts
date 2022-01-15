@@ -4,13 +4,12 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn
 } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
 
-@Entity('watched_videos_users')
-export class WatchedVideoUserORMEntity {
+@Entity('finishes')
+export class FinishORMEntity {
   @PrimaryGeneratedColumn()
   id?: string;
 
@@ -29,14 +28,14 @@ export class WatchedVideoUserORMEntity {
   @Column({ type: 'boolean', default: false })
   is_deleted!: boolean; // レビューが削除されている
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   started_at!: string; // 聴き始めた日 不明ならnull
 
-  @Column({ type: 'timestamp', nullable: true })
+  @Column({ type: 'varchar', nullable: true })
   finished_at!: string; // 聴き終わった日 不明ならnull
 
-  @CreateDateColumn()
-  created_at!: Date;
+  @Column()
+  registered_at!: string; // 聴き終わったリストに登録した日時
 
   @Column({ type: 'integer', default: 0 })
   restricted_status!: number;

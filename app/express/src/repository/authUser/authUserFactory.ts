@@ -5,6 +5,7 @@ import { UserName } from '../../domain/models/user/UserName';
 import { AuthUser } from '../../domain/models/authUser/AuthUser';
 import { UserId } from '../../domain/models/user/UserId';
 import { createUUID } from '../../adapter/uuid';
+import { DateTime } from '../../domain/models/common/DateTime';
 
 export class AuthUserFactory implements IAuthUserFactory {
   // eslint-disable-next-line class-methods-use-this
@@ -17,12 +18,14 @@ export class AuthUserFactory implements IAuthUserFactory {
     const password = Password.createFromPlain(argsObj.plainPassword);
     const displayId = new DisplayId(argsObj.displayIdValue);
     const name = new UserName(argsObj.userNameValue);
+    const registeredAt = DateTime.now();
 
     const authUser = new AuthUser({
       id,
       password,
       displayId,
       name,
+      registeredAt,
     });
 
     return authUser;
@@ -34,17 +37,20 @@ export class AuthUserFactory implements IAuthUserFactory {
     hashedPassword: string;
     displayIdValue: string;
     userNameValue: string;
+    registeredAtValue: string;
   }) => {
     const id = new UserId(argsObj.userIdValue);
     const password = Password.createFromHash(argsObj.hashedPassword);
     const displayId = new DisplayId(argsObj.displayIdValue);
     const name = new UserName(argsObj.userNameValue);
+    const registeredAt = DateTime.restore(argsObj.registeredAtValue);
 
     const authUser = new AuthUser({
       id,
       password,
       displayId,
       name,
+      registeredAt,
     });
 
     return authUser;

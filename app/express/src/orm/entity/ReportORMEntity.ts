@@ -4,7 +4,7 @@ import { VideoORMEntity } from './VideoORMEntity';
 import { ChannelORMEntity } from './ChannelORMEntity';
 import { CommentORMEntity } from './CommentORMEntity';
 import { ReasonORMEntity } from './ReasonOrmEntity';
-import { WatchedVideoUserORMEntity } from './WatchedVideoUserORMEntity';
+import { FinishORMEntity } from './FinishORMEntity';
 
 @Entity('reports')
 export class ReportORMEntity {
@@ -53,9 +53,9 @@ export class ReportORMEntity {
   @JoinColumn({ name: 'reported_user_id' })
   user!: UserORMEntity;
 
-  @ManyToOne(() => WatchedVideoUserORMEntity, (watchedVideo) => watchedVideo.id)
-  @JoinColumn({ name: 'reported_watched_id' })
-  watched_video!: WatchedVideoUserORMEntity;
+  @ManyToOne(() => FinishORMEntity, (finish) => finish.id)
+  @JoinColumn({ name: 'reported_finish_id' })
+  finish!: FinishORMEntity;
 
   @ManyToOne(() => CommentORMEntity, (comment) => comment.id)
   @JoinColumn({ name: 'reported_comment_id' })

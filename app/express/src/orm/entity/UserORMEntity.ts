@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('users') // テーブル名 users
 export class UserORMEntity {
@@ -17,6 +17,6 @@ export class UserORMEntity {
   @Column({ type: 'integer', default: 0 })
   restricted_status!: number;
 
-  @CreateDateColumn()
-  created_at!: string;
+  @Column()
+  registered_at!: string;
 }

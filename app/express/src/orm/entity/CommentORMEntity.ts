@@ -2,8 +2,6 @@ import {
   Entity,
   Column,
   PrimaryGeneratedColumn,
-  CreateDateColumn,
-  UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('comments')
@@ -23,11 +21,11 @@ export class CommentORMEntity {
   @Column({ type: 'boolean', default: false })
   has_spoilers!: boolean; // ネタバレを含むか
 
-  @CreateDateColumn()
-  created_at!: string; // レビューを投稿した日
+  @Column()
+  posted_at!: string; // レビューを投稿した日
 
-  @UpdateDateColumn()
-  updated_at!: string; // レビューを編集
+  @Column()
+  edited_at!: string; // レビューを編集
 
   @Column({ type: 'integer', default: 0 })
   restricted_status!: number;

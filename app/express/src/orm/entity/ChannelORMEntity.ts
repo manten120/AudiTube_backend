@@ -1,19 +1,19 @@
-import { Entity, Column, PrimaryColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn } from 'typeorm';
 
 @Entity('channels')
 export class ChannelORMEntity {
   @PrimaryColumn()
-  id?: string;
+  id!: string;
 
   @Column()
-  name!: string;
+  title!: string;
 
-  @CreateDateColumn()
-  created_at!: string;
-
-  @UpdateDateColumn()
+  @Column()
   updated_at!: string;
 
   @Column({type: 'integer', default: 0})
-  restricted_status!: number;
+  restricted_status!: number; // 1: 当サイトではこのチャンネルとその動画は表示しない
+
+  @Column({type: 'boolean', default: false})
+  is_deleted!: boolean; // true: YouTubeでチャンネルが削除またはBANされている
 }

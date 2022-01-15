@@ -6,6 +6,7 @@ import { UserId } from '../../domain/models/user/UserId';
 import { DisplayId } from '../../domain/models/user/DisplayId';
 import { IAuthUserFactory } from '../../domain/models/authUser/IAuthUserFactory';
 
+
 export class AuthUserRepository implements IAuthUserRepository {
   private readonly authUserFactory: IAuthUserFactory;
 
@@ -22,6 +23,7 @@ export class AuthUserRepository implements IAuthUserRepository {
     userData.display_id = authUser.displayId.value;
     userData.name = authUser.name.value;
     userData.password = authUser.password.value;
+    userData.registered_at = authUser.registeredAt.value;
 
     await usersTable.insert(userData);
   };
@@ -57,6 +59,7 @@ export class AuthUserRepository implements IAuthUserRepository {
       hashedPassword: userData.password,
       displayIdValue: userData.display_id,
       userNameValue: userData.name,
+      registeredAtValue: userData.registered_at,
     });
 
     return authUser;
@@ -80,6 +83,7 @@ export class AuthUserRepository implements IAuthUserRepository {
       hashedPassword: userData.password,
       displayIdValue: userData.display_id,
       userNameValue: userData.name,
+      registeredAtValue: userData.registered_at,
     });
 
     return authUser;

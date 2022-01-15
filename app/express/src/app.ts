@@ -12,6 +12,9 @@ import 'reflect-metadata';
 
 import { indexRouter } from './routes';
 import { accountRouter } from './routes/account';
+import { wishListRouter } from './routes/wishList';
+import { watchingListRouter } from './routes/watchingList';
+
 import { editRouter } from './routes/edit';
 
 import { notifyAdminOfError } from './adapter/notify';
@@ -37,6 +40,12 @@ app.use(
 );
 
 app.use('/account', accountRouter);
+app.use('/wishList', wishListRouter);
+app.use('/watchingList', watchingListRouter);
+
+// app.use('/wishList', wishListRouter);
+
+// 未実装 不要になるかも
 app.use('/edit', editRouter);
 app.use('/', indexRouter);
 

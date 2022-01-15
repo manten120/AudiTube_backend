@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('reasons')
 export class ReasonORMEntity {
@@ -7,7 +7,4 @@ export class ReasonORMEntity {
 
   @Column()
   reason!: string;
-
-  @CreateDateColumn()
-  created_at!: string;
 }

@@ -3,7 +3,7 @@ import {
   PrimaryColumn,
   ManyToOne,
   JoinColumn,
-  CreateDateColumn,
+  Column,
 } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
@@ -16,7 +16,7 @@ export class SoundQualityORMEntity {
   @PrimaryColumn()
   user_id!: string;
 
-  @CreateDateColumn()
+  @Column()
   created_at!: string;
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)

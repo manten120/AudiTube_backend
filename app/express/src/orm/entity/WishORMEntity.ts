@@ -1,17 +1,21 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, CreateDateColumn} from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
+import type { PriorityValue } from '../../types';
 
-@Entity('watching_videos_users')
-export class WatchingVideoUserORMEntity {
+@Entity('wishes')
+export class WishORMEntity {
   @PrimaryColumn()
   video_id!: string;
 
   @PrimaryColumn()
   user_id!: string;
 
-  @CreateDateColumn()
-  created_at!: string;
+  @Column({ type: 'integer', default: 0 })
+  priority!: PriorityValue;
+
+  @Column()
+  registered_at!: string;
 
   @Column({ type: 'integer', default: 0 })
   restricted_status!: number;

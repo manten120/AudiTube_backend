@@ -20,8 +20,10 @@
     "ejs": "^3.1.6",
     "express": "~4.16.1",
     "http-errors": "^1.8.1",
+    "moment": "^2.29.1",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.3",
+    "node-fetch": "^2.6.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.41",
     "uuid": "^8.3.2"
@@ -37,6 +39,7 @@
     "@types/jest": "^27.0.3",
     "@types/morgan": "~1.9.3",
     "@types/node": "^16.11.12",
+    "@types/node-fetch": "^2.5.10",
     "@types/prettier": "^2.4.2",
     "@types/supertest": "^2.0.11",
     "@types/uuid": "^8.3.4",

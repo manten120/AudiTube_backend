@@ -7,10 +7,11 @@ export interface IAuthUserFactory {
     userNameValue: string;
   }) => AuthUser;
 
-  create: (argsObj: {
+  create: (argsObj: { // メソッド名restoreに変更する?
     userIdValue: string;
     hashedPassword: string;
     displayIdValue: string;
     userNameValue: string;
+    registeredAtValue: string;
   }) => AuthUser;
 }
