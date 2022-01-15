@@ -78,9 +78,13 @@ export class WishApplicationService {
   };
 
   readonly getWishList = async (userIdValue: string) => {
-    const userId = new UserId(userIdValue);
-    const wishes = await this.wishRepository.findAllByUserId(userId);
-    const wishList = wishes.map((wish) => new WishListDTO(wish));
-    return wishList;
+    try {
+      const userId = new UserId(userIdValue);
+      const wishes = await this.wishRepository.findAllByUserId(userId);
+      const wishList = wishes.map((wish) => new WishListDTO(wish));
+      return { ok: true, body: wishList, error: null };
+    } catch (e) {
+      return { ok: false, body: [] as WishListDTO[], error: e };
+    }
   };
 }

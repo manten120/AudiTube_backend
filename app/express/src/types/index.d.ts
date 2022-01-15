@@ -12,7 +12,9 @@ export type Body = {
   channelId?: string;
 };
 
-export type Query = {};
+export type Query = {
+  userId?: string;
+};
 
 export interface CustomReq extends Request {
   query: Query;

@@ -4,6 +4,28 @@ import type { CustomReq } from '../types';
 
 const wishListRouter = express.Router();
 
+
+// 聴きたい動画リストを取得
+wishListRouter.get('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId } = req.query;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+
+    const result = await wishApplicationService.getWishList(userId);
+
+    if (!result.ok) {
+      res.json(result.body);
+      throw result.error;
+    }
+
+    return res.json(result.body);
+  })().catch(next);
+});
+
 // 聴きたい動画を追加
 wishListRouter.post('/', (req: CustomReq, res, next) => {
   (async () => {
@@ -36,6 +58,7 @@ wishListRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+// 聴きたい動画を削除
 wishListRouter.post('/delete', (req: CustomReq, res, next) => {
   (async () => {
     const { userId, videoId } = req.body;
@@ -58,4 +81,5 @@ wishListRouter.post('/delete', (req: CustomReq, res, next) => {
     return res.send('聴きたい動画から削除しました');
   })().catch(next);
 });
+
 export { wishListRouter };
