@@ -8,6 +8,8 @@ import { ListService } from '../../domain/Services/ListService';
 import { UserId } from '../../domain/models/user/UserId';
 import { WatchingListDTO } from './WatchingListDTO';
 import { VideoId } from '../../domain/models/video/VideoId';
+import { Priority } from '../../domain/models/wish/Priority';
+import type { PriorityValue } from '../../types';
 
 export class WatchingApplicationService {
   // private readonly channelRepository: IChannelRepository;
@@ -56,6 +58,30 @@ export class WatchingApplicationService {
         channelIdValue,
       });
 
+      return { ok: true, error: null };
+    } catch (e) {
+      return { ok: false, error: e };
+    }
+  };
+
+  readonly changePriority = async (argsObj: {
+    userIdValue: string;
+    videoIdValue: string;
+    priorityValue: PriorityValue;
+  }) => {
+    try {
+      const userId = new UserId(argsObj.userIdValue);
+      const videoId = new VideoId(argsObj.videoIdValue);
+      const watching = await this.watchingRepository.findOne(userId, videoId);
+      
+      if (!watching) {
+        throw new Error('watchingは存在しないか削除済みです');
+      }
+      
+      const priority = new Priority(argsObj.priorityValue);
+      watching.changePriority(priority);
+
+      await this.watchingRepository.update(watching);
       return { ok: true, error: null };
     } catch (e) {
       return { ok: false, error: e };

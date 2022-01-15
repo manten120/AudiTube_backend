@@ -57,6 +57,38 @@ watchingListRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+watchingListRouter.put('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId, videoId, priority } = req.body;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+    if (!videoId) {
+      throw new Error('videoIdがundefinedです');
+    }
+
+    if(!priority) {
+      throw new Error('priorityがundefinedです');
+    }
+
+
+    const result = await watchingApplicationService.changePriority({
+      userIdValue: userId,
+      videoIdValue: videoId,
+      priorityValue: priority,
+    });
+
+    if (!result.ok) {
+      res.send('優先順位を変更できませんでした');
+      throw result.error;
+    }
+    
+    return res.send('優先順位を変更しました');
+  })().catch(next);
+});
+
 watchingListRouter.post('/delete', (req: CustomReq, res, next) => {
   (async () => {
     const { userId, videoId } = req.body;

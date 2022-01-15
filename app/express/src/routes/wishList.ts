@@ -58,6 +58,38 @@ wishListRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+wishListRouter.put('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { userId, videoId, priority } = req.body;
+
+    if (!userId) {
+      throw new Error('userIdがundefinedです');
+    }
+
+    if (!videoId) {
+      throw new Error('videoIdがundefinedです');
+    }
+
+    if(!priority) {
+      throw new Error('priorityがundefinedです');
+    }
+
+
+    const result = await wishApplicationService.changePriority({
+      userIdValue: userId,
+      videoIdValue: videoId,
+      priorityValue: priority,
+    });
+
+    if (!result.ok) {
+      res.send('優先順位を変更できませんでした');
+      throw result.error;
+    }
+    
+    return res.send('優先順位を変更しました');
+  })().catch(next);
+});
+
 // 聴きたい動画を削除
 wishListRouter.post('/delete', (req: CustomReq, res, next) => {
   (async () => {

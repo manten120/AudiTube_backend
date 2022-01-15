@@ -8,7 +8,7 @@ export class Watching {
 
   readonly video: Video;
 
-  readonly priority: Priority;
+  priority: Priority;
 
   readonly registeredAt: DateTime;
 
@@ -23,4 +23,8 @@ export class Watching {
     this.priority = argsObj.priority;
     this.registeredAt = argsObj.registeredAt;
   }
+
+  readonly changePriority = (newPriority: Priority) => {
+    this.priority = newPriority;
+  };
 }

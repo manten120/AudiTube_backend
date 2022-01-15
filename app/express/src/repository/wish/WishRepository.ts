@@ -43,6 +43,19 @@ export class WishRepository implements IWishRepository {
     await wishesTable.insert(wishData);
   };
 
+    // eslint-disable-next-line class-methods-use-this
+    readonly update = async (wish: Wish) => {
+      const wishTable = getConnection().getRepository(WishORMEntity);
+  
+      const wishData = new WishORMEntity();
+      wishData.priority = wish.priority.value;
+  
+      await wishTable.update(
+        { user_id: wish.user.id.value, video_id: wish.video.id.value },
+        wishData
+      );
+    };
+
   readonly findOne = async (userId: UserId, videoId: VideoId) => {
     const wishesTable = getConnection().getRepository(WishORMEntity);
 

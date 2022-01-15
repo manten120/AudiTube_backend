@@ -43,6 +43,19 @@ export class WatchingRepository implements IWatchingRepository {
     await watchingTable.insert(watchingData);
   };
 
+  // eslint-disable-next-line class-methods-use-this
+  readonly update = async (watching: Watching) => {
+    const watchingTable = getConnection().getRepository(WatchingORMEntity);
+
+    const watchingData = new WatchingORMEntity();
+    watchingData.priority = watching.priority.value;
+
+    await watchingTable.update(
+      { user_id: watching.user.id.value, video_id: watching.video.id.value },
+      watchingData
+    );
+  };
+
   readonly findOne = async (userId: UserId, videoId: VideoId) => {
     const watchingTable = getConnection().getRepository(WatchingORMEntity);
 

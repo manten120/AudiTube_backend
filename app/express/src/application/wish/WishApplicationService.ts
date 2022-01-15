@@ -8,6 +8,8 @@ import { ListService } from '../../domain/Services/ListService';
 import { UserId } from '../../domain/models/user/UserId';
 import { WishListDTO } from './WishListDTO';
 import { VideoId } from '../../domain/models/video/VideoId';
+import type { PriorityValue } from '../../types';
+import { Priority } from '../../domain/models/wish/Priority';
 
 export class WishApplicationService {
   // private readonly channelRepository: IChannelRepository;
@@ -56,6 +58,30 @@ export class WishApplicationService {
         channelIdValue,
       });
 
+      return { ok: true, error: null };
+    } catch (e) {
+      return { ok: false, error: e };
+    }
+  };
+
+  readonly changePriority = async (argsObj: {
+    userIdValue: string;
+    videoIdValue: string;
+    priorityValue: PriorityValue;
+  }) => {
+    try {
+      const userId = new UserId(argsObj.userIdValue);
+      const videoId = new VideoId(argsObj.videoIdValue);
+      const wish = await this.wishRepository.findOne(userId, videoId);
+      
+      if (!wish) {
+        throw new Error('wishは存在しないか削除済みです');
+      }
+      
+      const priority = new Priority(argsObj.priorityValue);
+      wish.changePriority(priority);
+
+      await this.wishRepository.update(wish);
       return { ok: true, error: null };
     } catch (e) {
       return { ok: false, error: e };

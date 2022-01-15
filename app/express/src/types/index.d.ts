@@ -1,5 +1,7 @@
 import { Request } from 'express';
 
+export type PriorityValue = 0 | 1 | 2 | 3;
+
 export type Body = {
   password?: string;
   displayId?: string;
@@ -10,6 +12,7 @@ export type Body = {
   userId?: string;
   videoId?: string;
   channelId?: string;
+  priority?: PriorityValue;
 };
 
 export type Query = {
@@ -21,4 +24,3 @@ export interface CustomReq extends Request {
   body: Body;
 }
 
-export type PriorityValue = 0 | 1 | 2 | 3;

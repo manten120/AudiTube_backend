@@ -5,9 +5,11 @@ import { Wish } from './Wish';
 export interface IWishRepository {
   saveNew: (wish: Wish) => Promise<void>;
 
+  update: (wish: Wish) => Promise<void>;
+
   findOne: (userId: UserId, videoId: VideoId) => Promise<Wish | null>;
 
-  findAllByUserId: (userId: UserId) => Promise<Wish[]>
+  findAllByUserId: (userId: UserId) => Promise<Wish[]>;
 
   delete: (wish: Wish) => Promise<void>;
 }
