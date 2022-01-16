@@ -34,8 +34,8 @@ export class VideoFactory implements IVideoFactory {
 
     const video = new Video(
       videoId,
-      videoDuration,
       videoTitle,
+      videoDuration,
       updatedAt,
       channel
     );
