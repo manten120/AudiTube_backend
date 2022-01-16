@@ -47,15 +47,13 @@ export class WishApplicationService {
   readonly register = async (argsObj: {
     userIdValue: string;
     videoIdValue: string;
-    channelIdValue: string;
   }) => {
     try {
-      const { userIdValue, videoIdValue, channelIdValue } = argsObj;
+      const { userIdValue, videoIdValue } = argsObj;
 
       await this.listService.registerWish({
         userIdValue,
         videoIdValue,
-        channelIdValue,
       });
 
       return { ok: true, error: null };
@@ -73,11 +71,11 @@ export class WishApplicationService {
       const userId = new UserId(argsObj.userIdValue);
       const videoId = new VideoId(argsObj.videoIdValue);
       const wish = await this.wishRepository.findOne(userId, videoId);
-      
+
       if (!wish) {
         throw new Error('wishは存在しないか削除済みです');
       }
-      
+
       const priority = new Priority(argsObj.priorityValue);
       wish.changePriority(priority);
 

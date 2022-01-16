@@ -47,15 +47,13 @@ export class WatchingApplicationService {
   readonly register = async (argsObj: {
     userIdValue: string;
     videoIdValue: string;
-    channelIdValue: string;
   }) => {
     try {
-      const { userIdValue, videoIdValue, channelIdValue } = argsObj;
+      const { userIdValue, videoIdValue } = argsObj;
 
       await this.listService.registerWatching({
         userIdValue,
         videoIdValue,
-        channelIdValue,
       });
 
       return { ok: true, error: null };
@@ -73,11 +71,11 @@ export class WatchingApplicationService {
       const userId = new UserId(argsObj.userIdValue);
       const videoId = new VideoId(argsObj.videoIdValue);
       const watching = await this.watchingRepository.findOne(userId, videoId);
-      
+
       if (!watching) {
         throw new Error('watchingは存在しないか削除済みです');
       }
-      
+
       const priority = new Priority(argsObj.priorityValue);
       watching.changePriority(priority);
 

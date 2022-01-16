@@ -10,7 +10,7 @@ import { VideoId } from '../models/video/VideoId';
 import { IChannelRepository } from '../models/channel/IChannelRepository';
 import { IChannelFactory } from '../models/channel/IChannelFactory';
 import {
-  getVideoTitleAndChannelTitle,
+  getDataOfVideoAndChannelFromYouTubeAPI,
   getVideoDuration,
 } from '../../adapter/youtubeDataApi';
 
@@ -53,9 +53,8 @@ export class ListService {
 
   private readonly registerVideoAndChannel = async (argsObj: {
     videoIdValue: string;
-    channelIdValue: string;
   }) => {
-    const { videoIdValue, channelIdValue } = argsObj;
+    const { videoIdValue } = argsObj;
 
     const videoId = new VideoId(videoIdValue);
     const video = await this.videoRepository.findOneById(videoId);
@@ -63,17 +62,18 @@ export class ListService {
       return;
     }
 
-    const videoTitleAndChannelTitlePromise =
-      getVideoTitleAndChannelTitle(videoIdValue);
+    const dataOfVideoAndChannelPromise =
+      getDataOfVideoAndChannelFromYouTubeAPI(videoIdValue);
     const videoDurationValuePromise = getVideoDuration(videoIdValue);
 
-    const [videoTitleAndChannelTitle, videoDurationValue] = await Promise.all([
-      videoTitleAndChannelTitlePromise,
+    const [dataOfVideoAndChannel, videoDurationValue] = await Promise.all([
+      dataOfVideoAndChannelPromise,
       videoDurationValuePromise,
     ]);
 
-    const channelTitleValue = videoTitleAndChannelTitle.channelTitle;
-    const videoTitleValue = videoTitleAndChannelTitle.videoTitle;
+    const channelIdValue = dataOfVideoAndChannel.channelId;
+    const channelTitleValue = dataOfVideoAndChannel.channelTitle;
+    const videoTitleValue = dataOfVideoAndChannel.videoTitle;
 
     const channelId = new ChannelId(channelIdValue);
     const channel = await this.channelRepository.findOneById(channelId);
@@ -98,13 +98,11 @@ export class ListService {
   readonly registerWish = async (argsObj: {
     userIdValue: string;
     videoIdValue: string;
-    channelIdValue: string;
   }) => {
-    const { userIdValue, videoIdValue, channelIdValue } = argsObj;
+    const { userIdValue, videoIdValue } = argsObj;
 
     await this.registerVideoAndChannel({
       videoIdValue,
-      channelIdValue,
     });
 
     const userId = new UserId(userIdValue);
@@ -127,13 +125,11 @@ export class ListService {
   readonly registerWatching = async (argsObj: {
     userIdValue: string;
     videoIdValue: string;
-    channelIdValue: string;
   }) => {
-    const { userIdValue, videoIdValue, channelIdValue } = argsObj;
+    const { userIdValue, videoIdValue } = argsObj;
 
     await this.registerVideoAndChannel({
       videoIdValue,
-      channelIdValue,
     });
 
     const userId = new UserId(userIdValue);

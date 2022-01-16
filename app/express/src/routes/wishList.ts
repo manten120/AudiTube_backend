@@ -29,7 +29,7 @@ wishListRouter.get('/', (req: CustomReq, res, next) => {
 // 聴きたい動画を追加
 wishListRouter.post('/', (req: CustomReq, res, next) => {
   (async () => {
-    const { userId, videoId, channelId } = req.body;
+    const { userId, videoId } = req.body;
 
     if (!userId) {
       throw new Error('userIdがundefinedです');
@@ -39,14 +39,9 @@ wishListRouter.post('/', (req: CustomReq, res, next) => {
       throw new Error('videoIdがundefinedです');
     }
 
-    if (!channelId) {
-      throw new Error('channelIdがundefinedです');
-    }
-
     const result = await wishApplicationService.register({
       userIdValue: userId,
       videoIdValue: videoId,
-      channelIdValue: channelId,
     });
 
     if (!result.ok) {

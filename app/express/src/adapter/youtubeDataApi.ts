@@ -97,14 +97,20 @@ type VideoInfo = {
   };
 };
 
-export const getVideoTitleAndChannelTitle = async (videoId: string) => {
+export const getDataOfVideoAndChannelFromYouTubeAPI = async (
+  videoId: string
+) => {
   const res = await fetch(
     `https://www.googleapis.com/youtube/v3/videos?key=${YOUTUBE_API_KEY}&part=snippet&id=${videoId}`
   );
 
   const result = (await res.json()) as VideoInfo;
 
-  const { title: videoTitle, channelTitle } = result.items[0].snippet;
+  const {
+    title: videoTitle,
+    channelId,
+    channelTitle,
+  } = result.items[0].snippet;
 
-  return { videoTitle, channelTitle };
+  return { videoTitle, channelId, channelTitle };
 };
