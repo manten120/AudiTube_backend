@@ -1,37 +1,95 @@
-// import { User } from '../user/User';
-// import { Video } from '../video/Video';
+import { DateTime } from '../common/DateTime';
+import { User } from '../user/User';
+import { Video } from '../video/Video';
+import { FinishId } from './FinishId';
+import { Review } from './Review';
+import { Comment } from '../comment/Comment';
+import { Watching } from '../watching/Watching';
 
-// export class WishList {
-//   readonly user: User;
+export class Finish {
+  readonly id: FinishId;
 
-//   videos: ReadonlyArray<{ video: Video; addedAt: Date }>;
+  readonly user: User;
 
-//   constructor(user: User, videos: { video: Video; addedAt: Date }[]) {
-//     this.user = user;
-//     this.videos = videos;
-//   }
+  readonly video: Video;
 
-//   readonly addVideo = (video: Video) => {
-//     const addedAt = DateTime.now(); // 現在時刻
-//     const newVideos = this.videos.concat({ video, addedAt });
-//     this.videos = newVideos
-//   };
+  review: Review;
 
-//   readonly removeVideo = (video: Video) => {
-//     const newVideos = this.videos.filter((v) => {
-//       if(v.video.equals(video)) {return false};
-//       return true;
-//     })
-//     this.videos = newVideos;
-//   };
-// }
+  hasSpoilers: boolean; // ネタバレの有無
 
-// // ユーザー
-// // video
-// // videoを見始めた日
-// // videoを見終えた日
+  reviewIsRestricted: boolean;
 
-// // 感想
-// // 感想を書いた日
-// // 感想を編集した日
-// // 感想へのコメント
+  startedAt: DateTime; // 聴き始めた日
+
+  finishedAt: DateTime; // 聴き終えた日
+
+  readonly registeredAt: DateTime; // 聴き終わった日リストに登録した日
+
+  readonly comments: Comment[]; // 古い順
+
+  readonly favorites: User[]; // 新しい順 いいねしたユーザー
+
+  isRestricted: boolean; // ほかユーザーへの公開が制限されているか
+
+  constructor(argsObj: {
+    id: FinishId;
+    user: User;
+    video: Video;
+    review: Review;
+    hasSpoilers: boolean;
+    reviewIsRestricted: boolean;
+    startedAt: DateTime;
+    finishedAt: DateTime;
+    registeredAt: DateTime;
+    comments: Comment[];
+    favorites: User[];
+    isRestricted: boolean;
+  }) {
+    this.id = argsObj.id;
+    this.user = argsObj.user;
+    this.video = argsObj.video;
+    this.review = argsObj.review;
+    this.hasSpoilers = argsObj.hasSpoilers;
+    this.reviewIsRestricted = argsObj.reviewIsRestricted;
+    this.startedAt = argsObj.startedAt;
+    this.finishedAt = argsObj.finishedAt;
+    this.registeredAt = argsObj.registeredAt;
+    this.comments = argsObj.comments;
+    this.favorites = argsObj.favorites;
+    this.isRestricted = argsObj.isRestricted;
+  }
+
+  readonly editReview = (editedReview: Review) => {
+    this.review = editedReview;
+  };
+
+  readonly changeHasSpoilers = (hasSpoilers: boolean) => {
+    this.hasSpoilers = hasSpoilers;
+  };
+
+  readonly changeReviewIsRestricted = (reviewIsRestricted: boolean) => {
+    this.reviewIsRestricted = reviewIsRestricted;
+  };
+
+  readonly changeStartedAt = (startedAt: DateTime) => {
+    this.startedAt = startedAt;
+  };
+
+  readonly inheritRegisteredAtOfWatchingAsStartedAt = (watching: Watching | null) => {
+    const isSameVideoAndUser = watching
+      ? this.video.equals(watching.video) && this.user.equals(watching.user)
+      : false;
+
+    if (watching && isSameVideoAndUser) {
+      this.changeStartedAt(watching.registeredAt);
+    }
+  };
+
+  readonly changeFinishedAt = (finishedAt: DateTime) => {
+    this.finishedAt = finishedAt;
+  };
+
+  readonly changeIsRestricted = (isRestricted: boolean) => {
+    this.isRestricted = isRestricted;
+  };
+}

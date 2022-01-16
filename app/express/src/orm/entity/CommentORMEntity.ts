@@ -1,13 +1,13 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
+  PrimaryColumn,
 } from 'typeorm';
 
 @Entity('comments')
 export class CommentORMEntity {
-  @PrimaryGeneratedColumn()
-  id?: string;
+  @PrimaryColumn()
+  id!: string;
 
   @Column()
   watched_id!: string;

@@ -4,6 +4,8 @@ import { IWatchingRepository } from '../models/watching/IWatchingRepository';
 import { IWatchingFactory } from '../models/watching/IWatchingFactory';
 import { IWishRepository } from '../models/wish/IWishRepository';
 import { IWishFactory } from '../models/wish/IWishFactory';
+import { IFinishRepository } from '../models/finish/IFinishRepository';
+import { IFinishFactory } from '../models/finish/IFinishFactory';
 import { UserId } from '../models/user/UserId';
 import { ChannelId } from '../models/channel/ChannelId';
 import { VideoId } from '../models/video/VideoId';
@@ -31,6 +33,10 @@ export class ListService {
 
   private readonly watchingFactory: IWatchingFactory;
 
+  private readonly finishRepository: IFinishRepository;
+
+  private readonly finishFactory: IFinishFactory;
+
   constructor(argsObj: {
     channelRepository: IChannelRepository;
     channelFactory: IChannelFactory;
@@ -40,6 +46,8 @@ export class ListService {
     wishFactory: IWishFactory;
     watchingRepository: IWatchingRepository;
     watchingFactory: IWatchingFactory;
+    finishRepository: IFinishRepository;
+    finishFactory: IFinishFactory;
   }) {
     this.channelRepository = argsObj.channelRepository;
     this.channelFactory = argsObj.channelFactory;
@@ -49,13 +57,11 @@ export class ListService {
     this.wishFactory = argsObj.wishFactory;
     this.watchingRepository = argsObj.watchingRepository;
     this.watchingFactory = argsObj.watchingFactory;
+    this.finishRepository = argsObj.finishRepository;
+    this.finishFactory = argsObj.finishFactory;
   }
 
-  private readonly registerVideoAndChannel = async (argsObj: {
-    videoIdValue: string;
-  }) => {
-    const { videoIdValue } = argsObj;
-
+  private readonly registerVideoAndChannel = async (videoIdValue: string) => {
     const videoId = new VideoId(videoIdValue);
     const video = await this.videoRepository.findOneById(videoId);
     if (video) {
@@ -101,9 +107,7 @@ export class ListService {
   }) => {
     const { userIdValue, videoIdValue } = argsObj;
 
-    await this.registerVideoAndChannel({
-      videoIdValue,
-    });
+    await this.registerVideoAndChannel(videoIdValue);
 
     const userId = new UserId(userIdValue);
     const videoId = new VideoId(videoIdValue);
@@ -128,9 +132,7 @@ export class ListService {
   }) => {
     const { userIdValue, videoIdValue } = argsObj;
 
-    await this.registerVideoAndChannel({
-      videoIdValue,
-    });
+    await this.registerVideoAndChannel(videoIdValue);
 
     const userId = new UserId(userIdValue);
     const videoId = new VideoId(videoIdValue);
@@ -150,5 +152,51 @@ export class ListService {
     if (wish) {
       await this.wishRepository.delete(wish);
     }
+  };
+
+  readonly registerFinish = async (argsObj: {
+    userIdValue: string;
+    videoIdValue: string;
+    reviewValue: string;
+    hasSpoilers: boolean;
+  }) => {
+    const { userIdValue, videoIdValue, reviewValue, hasSpoilers } = argsObj;
+
+    // 聴いた動画リストに登録する動画とそのチャンネルに関するデータ(Videoエンティティ、Channelエンティティ)が
+    // 存在するかチェックする。なければ作成し保存する。
+    await this.registerVideoAndChannel(videoIdValue);
+
+    const userId = new UserId(userIdValue);
+    const videoId = new VideoId(videoIdValue);
+    const wishPromise = this.wishRepository.findOne(userId, videoId);
+    const watchingPromise = this.watchingRepository.findOne(userId, videoId);
+
+    const finishPromise = await this.finishFactory.createNew({
+      userIdValue,
+      videoIdValue,
+      reviewValue,
+      hasSpoilers,
+    });
+
+    const [wish, watching, finish] = await Promise.all([
+      wishPromise,
+      watchingPromise,
+      finishPromise,
+    ]);
+
+    // 聴き終わった動画リストに登録しようとしている動画が、聴いている動画リストに登録されているとき、
+    // 聴いている動画リストに登録した日時(watching.registeredAt)を、
+    // 聴き終わったの動画リストのその動画を聴き始めた日時(finish.startedAt)として引き継ぐ
+    finish.inheritRegisteredAtOfWatchingAsStartedAt(watching);
+
+    // 聴き終わった動画リストに登録しようとしている動画が、聴きたい動画リストまたは聴いている動画リストに登録されているとき、それらの登録を解除する
+    const deleteWishPromise = wish ? this.wishRepository.delete(wish) : '';
+    const deleteWatchingPromise = watching
+      ? this.watchingRepository.delete(watching)
+      : '';
+    await Promise.all([deleteWishPromise, deleteWatchingPromise]);
+
+    // 聴き終わった動画リストに登録する 
+    await this.finishRepository.saveNew(finish);
   };
 }

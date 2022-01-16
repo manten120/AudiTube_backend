@@ -13,6 +13,8 @@ export type Body = {
   videoId?: string;
   channelId?: string;
   priority?: PriorityValue;
+  review?: string;
+  hasSpoilers?: boolean;
 };
 
 export type Query = {

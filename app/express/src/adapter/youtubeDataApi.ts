@@ -82,7 +82,7 @@ type VideoInfo = {
         channelTitle: string;
         tags: string[];
         categoryId: string;
-        liveBroadcastContent: string;
+        liveBroadcastContent: string; // ライブ放送の場合 "live" 通常の動画の場合 "none"
         localized: {
           title: string;
           description: string;

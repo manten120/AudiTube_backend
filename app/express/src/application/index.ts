@@ -15,6 +15,9 @@ import { WatchingRepository } from '../repository/watching/WatchingRepository';
 import { WishApplicationService } from './wish/WishApplicationService';
 import { ListService } from '../domain/Services/ListService';
 import { WatchingApplicationService } from './watching/WatchingApplicationService';
+import { FinishRepository } from '../repository/finish/FinishRepository';
+import { FinishFactory } from '../repository/finish/FinishFactory';
+import { FinishApplicationService } from './finish/FinishApplicationService';
 
 const userFactory = new UserFactory();
 const userRepository = new UserRepository(userFactory);
@@ -56,6 +59,9 @@ const watchingFactory = new WatchingFactory({
 
 const watchingRepository = new WatchingRepository(watchingFactory);
 
+const finishFactory = new FinishFactory({ userRepository, videoRepository });
+const finishRepository = new FinishRepository();
+
 const listService = new ListService({
   channelRepository,
   channelFactory,
@@ -65,6 +71,8 @@ const listService = new ListService({
   wishFactory,
   watchingRepository,
   watchingFactory,
+  finishFactory,
+  finishRepository,
 });
 
 export const wishApplicationService = new WishApplicationService({
@@ -76,3 +84,7 @@ export const watchingApplicationService = new WatchingApplicationService({
   watchingRepository,
   listService,
 });
+
+export const finishApplicationService = new FinishApplicationService(
+  listService
+);

@@ -14,6 +14,7 @@ import { indexRouter } from './routes';
 import { accountRouter } from './routes/account';
 import { wishListRouter } from './routes/wishList';
 import { watchingListRouter } from './routes/watchingList';
+import { finishListRouter } from './routes/finishList';
 
 import { editRouter } from './routes/edit';
 
@@ -42,6 +43,7 @@ app.use(
 app.use('/account', accountRouter);
 app.use('/wishList', wishListRouter);
 app.use('/watchingList', watchingListRouter);
+app.use('/finishList', finishListRouter)
 
 // app.use('/wishList', wishListRouter);
 

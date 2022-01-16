@@ -1,17 +1,17 @@
 import {
   Entity,
   Column,
-  PrimaryGeneratedColumn,
   ManyToOne,
   JoinColumn,
+  PrimaryColumn,
 } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
 
 @Entity('finishes')
 export class FinishORMEntity {
-  @PrimaryGeneratedColumn()
-  id?: string;
+  @PrimaryColumn()
+  id!: string;
 
   @Column()
   video_id!: string;
@@ -21,6 +21,12 @@ export class FinishORMEntity {
 
   @Column({ type: 'varchar', nullable: true })
   review!: string; // レビュー・感想
+
+  @Column({ type: 'boolean', default: false })
+  has_spoilers!: boolean; // ネタバレの有無
+
+  @Column({ type: 'boolean', default: false })
+  review_is_restricted!: boolean; // レビューが公開制限されている 本人だけ閲覧可
 
   @Column({ type: 'varchar', nullable: true })
   started_at!: string; // 聴き始めた日 不明ならnull
@@ -33,9 +39,6 @@ export class FinishORMEntity {
 
   @Column({ type: 'boolean', default: false })
   is_restricted!: boolean; // videoまたはchannelがrestricted 本人だけ閲覧可
-
-  @Column({ type: 'boolean', default: false })
-  review_is_restricted!: boolean; // レビューが公開制限されている 本人だけ閲覧可
 
   @ManyToOne(() => VideoORMEntity, (video) => video.id)
   @JoinColumn({ name: 'video_id' })

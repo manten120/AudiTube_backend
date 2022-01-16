@@ -14,4 +14,6 @@ export class User {
     this.displayId = displayId;
     this.name = name;
   }
+
+  readonly equals = (user: User) => this.id.equals(user.id);
 }
