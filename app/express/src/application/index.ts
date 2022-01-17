@@ -95,7 +95,7 @@ export const finishApplicationService = new FinishApplicationService({
 });
 
 const commentFactory = new CommentFactory();
-const commentRepository = new CommentRepository();
+const commentRepository = new CommentRepository(commentFactory);
 
 export const commentApplicationService = new CommentApplicationService({
   finishRepository,

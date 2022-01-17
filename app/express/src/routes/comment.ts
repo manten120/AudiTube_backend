@@ -36,24 +36,26 @@ commentRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
-// コメントを削除
-// commentRouter.post('/delete', (req: CustomReq, res, next) => {
-//   (async () => {
-//     const { commentId } = req.body;
+// コメントを削除 
+commentRouter.post('/delete', (req: CustomReq, res, next) => {
+  (async () => {
+    // TODO: コメント投稿者本人だけが削除できるようにする
 
-//     if (commentId === undefined) {
-//       throw new Error('commentIdがundefinedです');
-//     }
+    const { commentId } = req.body;
 
-//     const result = await commentApplicationService.delete(commentId);
+    if (commentId === undefined) {
+      throw new Error('commentIdがundefinedです');
+    }
 
-//     if (!result.ok) {
-//       res.send('コメントを削除できませんでした');
-//       throw result.error;
-//     }
+    const result = await commentApplicationService.delete(commentId);
 
-//     return res.send('コメントを削除しました');
-//   })().catch(next);
-// });
+    if (!result.ok) {
+      res.send('コメントを削除できませんでした');
+      throw result.error;
+    }
+
+    return res.send('コメントを削除しました');
+  })().catch(next);
+});
 
 export {commentRouter}

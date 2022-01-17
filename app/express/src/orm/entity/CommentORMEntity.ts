@@ -1,4 +1,6 @@
-import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
+// eslint-disable-next-line import/no-cycle
+import { CommentLikeORMEntity } from './CommentLikeORMEntity';
 // eslint-disable-next-line import/no-cycle
 import { FinishORMEntity } from './FinishORMEntity';
 import { UserORMEntity } from './UserORMEntity';
@@ -33,4 +35,8 @@ export class CommentORMEntity {
   @ManyToOne(() => UserORMEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user!: UserORMEntity;
+
+  @OneToMany(() => CommentLikeORMEntity, (commentLike) => commentLike.comment, { cascade: ["remove"]})
+  @JoinColumn({ name: 'id' })
+  likes!: CommentLikeORMEntity[];
 }

@@ -15,17 +15,25 @@ export class Comment {
 
   readonly postedAt: DateTime;
 
+  isRestricted: boolean; // ほかユーザーへの公開が制限されているか
+
+  readonly likedUsers: UserId[]; // いいねしたユーザーの識別子
+
   constructor(argsObj: {
     id: CommentId;
     finishId: FinishId;
     userId: UserId;
     text: CommentText;
     postedAt: DateTime;
+    isRestricted: boolean;
+    likedUsers: UserId[]
   }) {
     this.id = argsObj.id;
     this.finishId = argsObj.finishId;
     this.userId = argsObj.userId;
     this.text = argsObj.text;
     this.postedAt = argsObj.postedAt;
+    this.isRestricted = argsObj.isRestricted;
+    this.likedUsers = argsObj.likedUsers;
   }
 }

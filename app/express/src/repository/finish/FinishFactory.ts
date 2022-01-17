@@ -114,8 +114,13 @@ export class FinishFactory implements IFinishFactory {
     const finishedAt = DateTime.restore(argsObj.finishedAtValue);
     const registeredAt = DateTime.restore(argsObj.registeredAtValue);
 
-    const comments = [] as CommentId[];
-    const likedUsers = [] as UserId[];
+    const comments: CommentId[] = argsObj.commentIdValues.map((value) =>
+      CommentId.restore(value)
+    );
+    
+    const likedUsers: UserId[] = argsObj.likedUserIdValues.map(
+      (value) => new UserId(value)
+    );
 
     const isRestricted = false;
 

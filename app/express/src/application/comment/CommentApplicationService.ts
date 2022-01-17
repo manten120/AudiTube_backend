@@ -1,3 +1,4 @@
+import { CommentId } from '../../domain/models/comment/CommentId';
 import { ICommentFactory } from '../../domain/models/comment/ICommentFactory';
 import { ICommentRepository } from '../../domain/models/comment/ICommentRepository';
 import { FinishId } from '../../domain/models/finish/FinishId';
@@ -57,6 +58,20 @@ export class CommentApplicationService {
       });
 
       await this.commentRepository.saveNew(comment);
+
+      return { ok: true, error: null };
+    } catch (e) {
+      return { ok: false, error: e };
+    }
+  };
+
+  readonly delete = async (commentIdValue: string) => {
+    try {
+      const commentId = CommentId.restore(commentIdValue);
+
+      const comment = await this.commentRepository.findOneById(commentId);
+
+      await this.commentRepository.delete(comment);
 
       return { ok: true, error: null };
     } catch (e) {

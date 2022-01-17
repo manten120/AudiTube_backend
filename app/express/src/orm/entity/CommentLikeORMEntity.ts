@@ -1,4 +1,5 @@
 import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
+// eslint-disable-next-line import/no-cycle
 import { CommentORMEntity } from './CommentORMEntity';
 import { UserORMEntity } from './UserORMEntity';
 
@@ -19,7 +20,7 @@ export class CommentLikeORMEntity {
   @Column()
   created_at!: string;
 
-  @ManyToOne(() => CommentORMEntity, (comment) => comment.id)
+  @ManyToOne(() => CommentORMEntity, (comment) => comment.likes)
   @JoinColumn({ name: 'comment_id' })
   comment!: CommentORMEntity;
 
