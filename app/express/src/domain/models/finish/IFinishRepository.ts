@@ -12,5 +12,5 @@ export interface IFinishRepository {
 
   // findAllByUserId: (userId: UserId) => Promise<Finish[]>;
 
-  // delete: (finish: Finish) => Promise<void>;
+  delete: (finish: Finish) => Promise<void>;
 }

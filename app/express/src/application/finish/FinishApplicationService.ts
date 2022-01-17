@@ -70,4 +70,18 @@ export class FinishApplicationService {
       return { ok: false, error: e };
     }
   };
+
+  readonly delete = async (finishIdValue: string) => {
+    try {
+      const finishId = FinishId.restore(finishIdValue);
+      const finish = await this.finishRepository.findOneById(finishId);
+      if(!finish) {
+        throw new Error('deleteしようとしたfinishはすでにに存在しません')
+      }
+      await this.finishRepository.delete(finish);
+      return {ok: true, error: null};
+    } catch (e) {
+      return {ok: false, error: e}
+    }
+  }
 }

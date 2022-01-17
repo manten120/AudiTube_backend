@@ -36,6 +36,10 @@ export class CommentRepository implements ICommentRepository {
       })
     )[0];
 
+    if(commentData === undefined) {
+      return null
+    }
+
     const likedUserIdValues = commentData.likes.map((like) => like.user_id);
 
     const comment = this.commentFactory.restore({

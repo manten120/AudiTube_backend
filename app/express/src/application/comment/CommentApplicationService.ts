@@ -71,6 +71,10 @@ export class CommentApplicationService {
 
       const comment = await this.commentRepository.findOneById(commentId);
 
+      if (!comment) {
+        throw new Error('deleteしようとしたcommentはすでに存在ません');
+      }
+
       await this.commentRepository.delete(comment);
 
       return { ok: true, error: null };

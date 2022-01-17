@@ -84,4 +84,23 @@ export class FinishRepository implements IFinishRepository {
 
     await finishesTable.update(finish.id.value, finishData);
   };
+
+  
+  // eslint-disable-next-line class-methods-use-this
+  readonly delete = async (finish: Finish) => {
+    const finishesTable = getConnection().getRepository(FinishORMEntity);
+
+    const finishData = await finishesTable.findOne({
+      where: {
+        id: finish.id.value,
+      },
+      // relations: ['comments', 'likes']
+    });
+
+    if (!finishData) {
+      throw new Error('finishはすでに存在しません');
+    }
+
+    await finishesTable.delete(finishData);
+  };
 }

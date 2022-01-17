@@ -44,8 +44,7 @@ finishListRouter.post('/', (req: CustomReq, res, next) => {
 // 聴き終わった動画に関する情報を変更
 finishListRouter.put('/', (req: CustomReq, res, next) => {
   (async () => {
-    const { finishId, review, hasSpoilers, startedAt, finishedAt } =
-      req.body;
+    const { finishId, review, hasSpoilers, startedAt, finishedAt } = req.body;
 
     if (finishId === undefined) {
       throw new Error('finishIdがundefinedです');
@@ -81,6 +80,28 @@ finishListRouter.put('/', (req: CustomReq, res, next) => {
     }
 
     return res.send('聴き終わった動画に関する情報を変更しました');
+  })().catch(next);
+});
+
+// 聴き終わった動画を削除
+finishListRouter.post('/delete', (req: CustomReq, res, next) => {
+  (async () => {
+    // TODO: 本人だけが削除できるようにする
+
+    const { finishId } = req.body;
+
+    if (finishId === undefined) {
+      throw new Error('finishIdがundefinedです');
+    }
+
+    const result = await finishApplicationService.delete(finishId);
+
+    if (!result.ok) {
+      res.send('聴き終わった動画をを削除できませんでした');
+      throw result.error;
+    }
+
+    return res.send('聴き終わった動画をを削除しました');
   })().catch(next);
 });
 

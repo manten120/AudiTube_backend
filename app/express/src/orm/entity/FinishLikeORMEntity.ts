@@ -20,11 +20,15 @@ export class FinishLikeORMEntity {
   @Column()
   created_at!: string;
 
-  @ManyToOne(() => FinishORMEntity, (finish) => finish.likes)
+  @ManyToOne(() => FinishORMEntity, (finish) => finish.likes, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'finish_id' })
   finish!: FinishORMEntity;
 
-  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @ManyToOne(() => UserORMEntity, (user) => user.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user!: UserORMEntity;
 }
