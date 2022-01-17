@@ -13,8 +13,11 @@ export type Body = {
   videoId?: string;
   channelId?: string;
   priority?: PriorityValue;
+  finishId?: string;
   review?: string;
   hasSpoilers?: boolean;
+  startedAt?: string;
+  finishedAt?: string;
 };
 
 export type Query = {
@@ -25,4 +28,3 @@ export interface CustomReq extends Request {
   query: Query;
   body: Body;
 }
-

@@ -1,17 +1,17 @@
 import { DateTime } from '../common/DateTime';
-import { User } from '../user/User';
-import { Video } from '../video/Video';
 import { FinishId } from './FinishId';
 import { Review } from './Review';
-import { Comment } from '../comment/Comment';
 import { Watching } from '../watching/Watching';
+import { UserId } from '../user/UserId';
+import { CommentId } from '../comment/CommentId';
+import { VideoId } from '../video/VideoId';
 
 export class Finish {
   readonly id: FinishId;
 
-  readonly user: User;
+  readonly userId: UserId;
 
-  readonly video: Video;
+  readonly videoId: VideoId;
 
   review: Review;
 
@@ -25,38 +25,38 @@ export class Finish {
 
   readonly registeredAt: DateTime; // 聴き終わった日リストに登録した日
 
-  readonly comments: Comment[]; // 古い順
+  readonly comments: CommentId[]; // コメントの識別子
 
-  readonly favorites: User[]; // 新しい順 いいねしたユーザー
+  readonly likedUsers: UserId[]; // いいねしたユーザーの識別子
 
   isRestricted: boolean; // ほかユーザーへの公開が制限されているか
 
   constructor(argsObj: {
     id: FinishId;
-    user: User;
-    video: Video;
+    userId: UserId;
+    videoId: VideoId;
     review: Review;
     hasSpoilers: boolean;
     reviewIsRestricted: boolean;
     startedAt: DateTime;
     finishedAt: DateTime;
     registeredAt: DateTime;
-    comments: Comment[];
-    favorites: User[];
     isRestricted: boolean;
+    comments: CommentId[];
+    likedUsers: UserId[];
   }) {
     this.id = argsObj.id;
-    this.user = argsObj.user;
-    this.video = argsObj.video;
+    this.userId = argsObj.userId;
+    this.videoId = argsObj.videoId;
     this.review = argsObj.review;
     this.hasSpoilers = argsObj.hasSpoilers;
     this.reviewIsRestricted = argsObj.reviewIsRestricted;
     this.startedAt = argsObj.startedAt;
     this.finishedAt = argsObj.finishedAt;
     this.registeredAt = argsObj.registeredAt;
-    this.comments = argsObj.comments;
-    this.favorites = argsObj.favorites;
     this.isRestricted = argsObj.isRestricted;
+    this.comments = argsObj.comments;
+    this.likedUsers = argsObj.likedUsers;
   }
 
   readonly editReview = (editedReview: Review) => {
@@ -75,9 +75,11 @@ export class Finish {
     this.startedAt = startedAt;
   };
 
-  readonly inheritRegisteredAtOfWatchingAsStartedAt = (watching: Watching | null) => {
+  readonly inheritRegisteredAtOfWatchingAsStartedAt = (
+    watching: Watching | null
+  ) => {
     const isSameVideoAndUser = watching
-      ? this.video.equals(watching.video) && this.user.equals(watching.user)
+      ? this.videoId.equals(watching.video.id) && this.userId.equals(watching.user.id) // TODO watchingのリファクタ後、equals()の引数を変更する
       : false;
 
     if (watching && isSameVideoAndUser) {

@@ -6,19 +6,20 @@ export interface IFinishFactory {
     videoIdValue: string;
     reviewValue: string;
     hasSpoilers: boolean;
-  }) => Promise<Finish>;
+  }) => Finish;
 
-  // restore: (argsObj: {
-  //   userIdValue: string;
-  //   displayIdValue: string;
-  //   userNameValue: string;
-  //   channelIdValue: string;
-  //   channelTitleValue: string;
-  //   channelUpdatedAtValue: string;
-  //   videoIdValue: string;
-  //   videoTitleValue: string;
-  //   videoDurationValue: string;
-  //   videoUpdatedAtValue: string;
-  //   wishRegisteredAtValue: string;
-  // }) => Finish;
+  restore: (argsObj: {
+    finishIdValue: string;
+    userIdValue: string;
+    videoIdValue: string;
+    reviewValue: string;
+    hasSpoilers: boolean;
+    reviewIsRestricted: boolean;
+    startedAtValue: string;
+    finishedAtValue: string;
+    registeredAtValue: string;
+    isRestricted: boolean
+    commentIdValues: string[];
+    likedUserIdValues: string[];
+  }) => Finish;
 }

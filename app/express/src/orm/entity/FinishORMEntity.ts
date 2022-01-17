@@ -4,9 +4,14 @@ import {
   ManyToOne,
   JoinColumn,
   PrimaryColumn,
+  OneToMany,
 } from 'typeorm';
 import { UserORMEntity } from './UserORMEntity';
 import { VideoORMEntity } from './VideoORMEntity';
+// eslint-disable-next-line import/no-cycle
+import { CommentORMEntity } from './CommentORMEntity';
+// eslint-disable-next-line import/no-cycle
+import { FinishLikeORMEntity } from './FinishLikeORMEntity';
 
 @Entity('finishes')
 export class FinishORMEntity {
@@ -47,4 +52,12 @@ export class FinishORMEntity {
   @ManyToOne(() => UserORMEntity, (user) => user.id)
   @JoinColumn({ name: 'user_id' })
   user!: UserORMEntity;
+
+  @OneToMany(() => CommentORMEntity, (comment) => comment.finish)
+  @JoinColumn({ name: 'id' })
+  comments!: CommentORMEntity[];
+
+  @OneToMany(() => FinishLikeORMEntity, (like) => like.finish)
+  @JoinColumn({ name: 'id' })
+  likes!: FinishLikeORMEntity[];
 }

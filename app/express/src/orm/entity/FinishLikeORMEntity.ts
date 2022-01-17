@@ -3,8 +3,8 @@ import { Entity, Column, PrimaryColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { FinishORMEntity } from './FinishORMEntity';
 import { UserORMEntity } from './UserORMEntity';
 
-@Entity('comments')
-export class CommentORMEntity {
+@Entity('finish_likes')
+export class FinishLikeORMEntity {
   @PrimaryColumn()
   id!: string;
 
@@ -14,19 +14,13 @@ export class CommentORMEntity {
   @Column()
   user_id!: string;
 
-  @Column()
-  text!: string;
-
-  @Column()
-  posted_at!: string; // コメントを投稿した日
-
   @Column({ type: 'boolean', default: false })
   is_notified!: boolean;
 
-  @Column({ type: 'boolean', default: false })
-  is_restricted!: boolean;
+  @Column()
+  created_at!: string;
 
-  @ManyToOne(() => FinishORMEntity, (finish) => finish.comments)
+  @ManyToOne(() => FinishORMEntity, (finish) => finish.likes)
   @JoinColumn({ name: 'finish_id' })
   finish!: FinishORMEntity;
 

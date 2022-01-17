@@ -11,6 +11,7 @@ import { ChannelId } from '../models/channel/ChannelId';
 import { VideoId } from '../models/video/VideoId';
 import { IChannelRepository } from '../models/channel/IChannelRepository';
 import { IChannelFactory } from '../models/channel/IChannelFactory';
+import { IUserRepository } from '../models/user/IUserRepository';
 import {
   getDataOfVideoAndChannelFromYouTubeAPI,
   getVideoDuration,
@@ -37,6 +38,8 @@ export class ListService {
 
   private readonly finishFactory: IFinishFactory;
 
+  private readonly userRepository: IUserRepository;
+
   constructor(argsObj: {
     channelRepository: IChannelRepository;
     channelFactory: IChannelFactory;
@@ -48,6 +51,7 @@ export class ListService {
     watchingFactory: IWatchingFactory;
     finishRepository: IFinishRepository;
     finishFactory: IFinishFactory;
+    userRepository: IUserRepository;
   }) {
     this.channelRepository = argsObj.channelRepository;
     this.channelFactory = argsObj.channelFactory;
@@ -59,6 +63,7 @@ export class ListService {
     this.watchingFactory = argsObj.watchingFactory;
     this.finishRepository = argsObj.finishRepository;
     this.finishFactory = argsObj.finishFactory;
+    this.userRepository = argsObj.userRepository;
   }
 
   private readonly registerVideoAndChannel = async (videoIdValue: string) => {
@@ -167,11 +172,17 @@ export class ListService {
     await this.registerVideoAndChannel(videoIdValue);
 
     const userId = new UserId(userIdValue);
+    // userが存在することを確認
+    const user = await this.userRepository.findOneById(userId)
+    if(!user) {
+      throw new Error('userが存在しません')
+    }
+
     const videoId = new VideoId(videoIdValue);
     const wishPromise = this.wishRepository.findOne(userId, videoId);
     const watchingPromise = this.watchingRepository.findOne(userId, videoId);
 
-    const finishPromise = await this.finishFactory.createNew({
+    const finishPromise = this.finishFactory.createNew({
       userIdValue,
       videoIdValue,
       reviewValue,

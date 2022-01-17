@@ -30,3 +30,5 @@ export { UserORMEntity } from './entity/UserORMEntity';
 export { VideoORMEntity } from './entity/VideoORMEntity';
 export { FinishORMEntity } from './entity/FinishORMEntity';
 export { WatchingORMEntity } from './entity/WatchingORMEntity';
+export { FinishLikeORMEntity } from './entity/FinishLikeORMEntity';
+export { CommentLikeORMEntity } from './entity/CommentLikeORMEntity';

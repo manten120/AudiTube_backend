@@ -41,4 +41,47 @@ finishListRouter.post('/', (req: CustomReq, res, next) => {
   })().catch(next);
 });
 
+// 聴き終わった動画に関する情報を変更
+finishListRouter.put('/', (req: CustomReq, res, next) => {
+  (async () => {
+    const { finishId, review, hasSpoilers, startedAt, finishedAt } =
+      req.body;
+
+    if (finishId === undefined) {
+      throw new Error('finishIdがundefinedです');
+    }
+
+    if (review === undefined) {
+      throw new Error('reviewがundefinedです');
+    }
+
+    if (hasSpoilers === undefined) {
+      throw new Error('hasSpoilersがundefinedです');
+    }
+
+    if (startedAt === undefined) {
+      throw new Error('startedAtがundefinedです');
+    }
+
+    if (finishedAt === undefined) {
+      throw new Error('finishedAtがundefinedです');
+    }
+
+    const result = await finishApplicationService.update({
+      finishIdValue: finishId,
+      reviewValue: review,
+      hasSpoilers,
+      startedAtValue: startedAt,
+      finishedAtValue: finishedAt,
+    });
+
+    if (!result.ok) {
+      res.send('聴き終わった動画に関する情報を変更できませんでした');
+      throw result.error;
+    }
+
+    return res.send('聴き終わった動画に関する情報を変更しました');
+  })().catch(next);
+});
+
 export { finishListRouter };

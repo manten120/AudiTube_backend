@@ -59,8 +59,8 @@ const watchingFactory = new WatchingFactory({
 
 const watchingRepository = new WatchingRepository(watchingFactory);
 
-const finishFactory = new FinishFactory({ userRepository, videoRepository });
-const finishRepository = new FinishRepository();
+const finishFactory = new FinishFactory();
+const finishRepository = new FinishRepository(finishFactory);
 
 const listService = new ListService({
   channelRepository,
@@ -73,6 +73,7 @@ const listService = new ListService({
   watchingFactory,
   finishFactory,
   finishRepository,
+  userRepository,
 });
 
 export const wishApplicationService = new WishApplicationService({
@@ -85,6 +86,7 @@ export const watchingApplicationService = new WatchingApplicationService({
   listService,
 });
 
-export const finishApplicationService = new FinishApplicationService(
-  listService
-);
+export const finishApplicationService = new FinishApplicationService({
+  listService,
+  finishRepository,
+});

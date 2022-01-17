@@ -3,7 +3,7 @@ import { DateTime } from '../common/DateTime';
 import { FinishId } from '../finish/FinishId';
 import { User } from '../user/User';
 
-export class Favorite {
+export class Like {
   readonly targetId: FinishId | CommentId;
 
   readonly user: User;
