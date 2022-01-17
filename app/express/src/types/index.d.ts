@@ -18,6 +18,9 @@ export type Body = {
   hasSpoilers?: boolean;
   startedAt?: string;
   finishedAt?: string;
+  finishId?: string;
+  commentText?: string;
+  commentId?: string;
 };
 
 export type Query = {

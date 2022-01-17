@@ -1,5 +1,6 @@
+import { DateTime } from '../common/DateTime';
 import { FinishId } from '../finish/FinishId';
-import { User } from '../user/User';
+import { UserId } from '../user/UserId';
 import { CommentId } from './CommentId';
 import { CommentText } from './CommentText';
 
@@ -8,19 +9,23 @@ export class Comment {
 
   readonly finishId: FinishId;
 
-  readonly user: User;
+  readonly userId: UserId;
 
   readonly text: CommentText;
+
+  readonly postedAt: DateTime;
 
   constructor(argsObj: {
     id: CommentId;
     finishId: FinishId;
-    user: User;
+    userId: UserId;
     text: CommentText;
+    postedAt: DateTime;
   }) {
     this.id = argsObj.id;
     this.finishId = argsObj.finishId;
-    this.user = argsObj.user;
+    this.userId = argsObj.userId;
     this.text = argsObj.text;
+    this.postedAt = argsObj.postedAt;
   }
 }

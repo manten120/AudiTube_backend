@@ -18,6 +18,9 @@ import { WatchingApplicationService } from './watching/WatchingApplicationServic
 import { FinishRepository } from '../repository/finish/FinishRepository';
 import { FinishFactory } from '../repository/finish/FinishFactory';
 import { FinishApplicationService } from './finish/FinishApplicationService';
+import { CommentFactory } from '../repository/comment/CommentFactory';
+import { CommentRepository, } from '../repository/comment/CommentRepository';
+import { CommentApplicationService } from './comment/CommentApplicationService';
 
 const userFactory = new UserFactory();
 const userRepository = new UserRepository(userFactory);
@@ -90,3 +93,13 @@ export const finishApplicationService = new FinishApplicationService({
   listService,
   finishRepository,
 });
+
+const commentFactory = new CommentFactory();
+const commentRepository = new CommentRepository();
+
+export const commentApplicationService = new CommentApplicationService({
+  finishRepository,
+  userRepository,
+  commentFactory,
+  commentRepository
+})
