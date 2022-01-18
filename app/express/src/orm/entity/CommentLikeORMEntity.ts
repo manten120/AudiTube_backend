@@ -20,11 +20,15 @@ export class CommentLikeORMEntity {
   @Column()
   created_at!: string;
 
-  @ManyToOne(() => CommentORMEntity, (comment) => comment.likes)
+  @ManyToOne(() => CommentORMEntity, (comment) => comment.likes, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'comment_id' })
   comment!: CommentORMEntity;
 
-  @ManyToOne(() => UserORMEntity, (user) => user.id)
+  @ManyToOne(() => UserORMEntity, (user) => user.id, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'user_id' })
   user!: UserORMEntity;
 }

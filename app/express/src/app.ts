@@ -16,6 +16,7 @@ import { wishListRouter } from './routes/wishList';
 import { watchingListRouter } from './routes/watchingList';
 import { finishListRouter } from './routes/finishList';
 import { commentRouter } from './routes/comment';
+import { likeRouter } from './routes/like';
 
 import { editRouter } from './routes/edit';
 
@@ -46,7 +47,7 @@ app.use('/wishList', wishListRouter);
 app.use('/watchingList', watchingListRouter);
 app.use('/finishList', finishListRouter);
 app.use('/comment', commentRouter);
-
+app.use('/like', likeRouter);
 // app.use('/wishList', wishListRouter);
 
 // 未実装 不要になるかも

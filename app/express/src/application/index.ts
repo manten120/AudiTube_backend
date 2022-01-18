@@ -19,8 +19,14 @@ import { FinishRepository } from '../repository/finish/FinishRepository';
 import { FinishFactory } from '../repository/finish/FinishFactory';
 import { FinishApplicationService } from './finish/FinishApplicationService';
 import { CommentFactory } from '../repository/comment/CommentFactory';
-import { CommentRepository, } from '../repository/comment/CommentRepository';
+import { CommentRepository } from '../repository/comment/CommentRepository';
 import { CommentApplicationService } from './comment/CommentApplicationService';
+import { LikeToFinishFactory } from '../repository/likeToFinish/LikeToFinishFactory';
+import { LikeToFinishRepository } from '../repository/likeToFinish/LikeToFinishRepository';
+import { LikeToFinishApplicationService } from './likeToFinish/LikeToFinishApplicationService';
+import { LikeToCommentFactory } from '../repository/likeToComment/LikeToCommentFactory';
+import { LikeToCommentRepository } from '../repository/likeToComment/LikeToCommentRepository';
+import { LikeToCommentApplicationService } from './likeToComment/LikeToCommentApplicationService';
 
 const userFactory = new UserFactory();
 const userRepository = new UserRepository(userFactory);
@@ -101,5 +107,25 @@ export const commentApplicationService = new CommentApplicationService({
   finishRepository,
   userRepository,
   commentFactory,
-  commentRepository
-})
+  commentRepository,
+});
+
+const likeToFinishFactory = new LikeToFinishFactory();
+const likeToFinishRepository = new LikeToFinishRepository(likeToFinishFactory);
+
+export const likeToFinishApplicationService =
+  new LikeToFinishApplicationService({
+    likeToFinishFactory,
+    likeToFinishRepository,
+  });
+
+const likeToCommentFactory = new LikeToCommentFactory();
+const likeToCommentRepository = new LikeToCommentRepository(
+  likeToCommentFactory
+);
+
+export const likeToCommentApplicationService =
+  new LikeToCommentApplicationService({
+    likeToCommentFactory,
+    likeToCommentRepository,
+  });
